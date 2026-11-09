@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSC40 Milestone 3 – Mock Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#F2F5FB; --grid:#E0E6F1; --surface:#FFFFFF; --surface-2:#EBF0F8; --ink:#152039; --ink-soft:#4A5674; --line:#C9D3E4;
+  --net:#08777F; --net-soft:#D4EEF0; --ai:#6440D0; --ai-soft:#E9E2FF;
+  --bit:#F2A500; --bit-soft:#FFF0C4; --ok:#13834A; --ok-soft:#D8F2E3; --no:#CF3843; --no-soft:#FCE0E2;
+  --on-accent:#FFFFFF; --box:#C8925A; --box-dark:#9E6C3A; --vest:#EE7A2B; --skin:#B97E50; --label:#FFFFFF;
+  --accent:var(--net); --accent-soft:var(--net-soft);
+  --font:"Lexend", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-ar:"Tajawal", "Noto Naskh Arabic", "Segoe UI", sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0E1525; --grid:#18223A; --surface:#162038; --surface-2:#1E2A45; --ink:#E9EEF8; --ink-soft:#A9B4CE; --line:#2D3B5B;
+    --net:#45C7CC; --net-soft:#11373D; --ai:#A98DFF; --ai-soft:#2B2453;
+    --bit:#FFC94A; --bit-soft:#3B3015; --ok:#4FD38D; --ok-soft:#133627; --no:#FF7D86; --no-soft:#3E1C22;
+    --on-accent:#0E1525; --box:#A97A48; --box-dark:#7D5630; --vest:#D9692A; --skin:#A06E47; --label:#F4F1E8;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0E1525; --grid:#18223A; --surface:#162038; --surface-2:#1E2A45; --ink:#E9EEF8; --ink-soft:#A9B4CE; --line:#2D3B5B;
+  --net:#45C7CC; --net-soft:#11373D; --ai:#A98DFF; --ai-soft:#2B2453;
+  --bit:#FFC94A; --bit-soft:#3B3015; --ok:#4FD38D; --ok-soft:#133627; --no:#FF7D86; --no-soft:#3E1C22;
+  --on-accent:#0E1525; --box:#A97A48; --box-dark:#7D5630; --vest:#D9692A; --skin:#A06E47; --label:#F4F1E8;
+}
+[data-topic="net"]{--accent:var(--net);--accent-soft:var(--net-soft)}
+[data-topic="ai"]{--accent:var(--ai);--accent-soft:var(--ai-soft)}
+
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 84px);-webkit-text-size-adjust:100%}
+body{
+  margin:0; color:var(--ink); font-family:var(--font); font-size:18px; line-height:1.6; font-weight:400;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+img,svg{max-width:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--bit);outline-offset:3px;border-radius:6px}
+h1,h2,h3,h4{line-height:1.2;margin:0}
+p{margin:0 0 .6em}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.ar{font-family:var(--font-ar);font-weight:500;color:var(--ink-soft);font-size:.92em;white-space:nowrap}
+body.no-ar .ar{display:none}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:2px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);text-decoration:none;font-size:1.02rem}
+.brand-bits{display:flex;gap:4px}
+.brand-bits i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.brand-bits i.on{background:var(--bit);box-shadow:0 0 8px var(--bit)}
+.bar-right{display:flex;align-items:center;gap:12px}
+.overall{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--ink-soft);font-weight:500}
+.overall .track{width:84px;height:9px;border-radius:9px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.overall .fill{height:100%;background:var(--ok);transition:width .4s}
+
+/* ---------- buttons ---------- */
+.btn{font:inherit;font-size:.95rem;font-weight:600;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 18px;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.small{min-height:38px;padding:5px 14px;font-size:.88rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.toggle{font:inherit;font-size:.85rem;font-weight:600;border:2px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:40px}
+.toggle[aria-pressed="true"]{border-color:var(--ok);background:var(--ok-soft)}
+.toggle .ar{color:inherit}
+.say{font:inherit;border:0;background:var(--surface-2);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1rem;flex:none;display:inline-grid;place-items:center}
+.say:hover{background:var(--accent-soft)}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px;padding:5px;border-radius:16px;background:var(--surface-2);border:2px solid var(--line)}
+.seg button{font:inherit;font-size:.9rem;font-weight:600;border:0;background:transparent;color:var(--ink);border-radius:11px;padding:7px 14px;cursor:pointer;min-height:40px}
+.seg button.on{background:var(--accent);color:var(--on-accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* ---------- home ---------- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;padding:44px 0 30px}
+.hero h1{font-size:clamp(2.3rem,5.4vw,3.9rem);font-weight:800;letter-spacing:-.025em;line-height:1.02;margin:6px 0 16px}
+.hero-sub{font-weight:600;color:var(--net);margin:0}
+.hero p.lead{font-size:1.08rem;color:var(--ink-soft);max-width:34em}
+.hero-card{background:var(--surface);border:2px solid var(--line);border-radius:26px;padding:22px 20px 18px}
+.hero-card .cap{font-weight:600;margin-bottom:10px}
+.how{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px;font-size:.92rem;color:var(--ink-soft)}
+.how span{display:flex;align-items:center;gap:6px}
+.how b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--surface);border:2px solid var(--line);font-size:.95rem}
+
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:10px 0 20px}
+.track-col{background:var(--surface);border:2px solid var(--line);border-radius:24px;overflow:hidden}
+.track-head{padding:18px 20px 16px;background:var(--accent-soft);border-bottom:2px solid var(--line)}
+.track-head small{display:block;font-weight:600;color:var(--accent);font-size:.85rem}
+.track-head h2{font-size:1.35rem;font-weight:700}
+.lesson-list{list-style:none;margin:0;padding:8px}
+.lesson-link{display:grid;grid-template-columns:34px 44px 1fr auto;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;color:var(--ink);text-decoration:none}
+.lesson-link:hover{background:var(--surface-2)}
+.ln{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:700;border:2px solid var(--accent);color:var(--accent)}
+.lesson-link.complete .ln{background:var(--ok);border-color:var(--ok);color:var(--on-accent)}
+.li{font-size:1.6rem;text-align:center}
+.lt{font-weight:600;line-height:1.25;min-width:0}
+.lt .ar{display:block;font-size:.85rem;font-weight:500;white-space:normal;text-align:left}
+.dots{display:flex;gap:4px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--surface-2);border:2px solid var(--line)}
+.dots i.on{background:var(--ok);border-color:var(--ok)}
+.review-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:var(--ink);color:var(--paper);border-radius:24px;padding:22px 24px;margin:6px 0 40px}
+.review-strip h2{font-size:1.3rem;margin-bottom:4px}
+.review-strip p{margin:0;opacity:.85}
+.review-strip .btn{background:var(--bit);border-color:var(--bit);color:#1b1400}
+.reset{font:inherit;font-size:.85rem;background:none;border:0;color:var(--ink-soft);text-decoration:underline;cursor:pointer;margin:0 0 40px}
+
+/* ---------- binary ---------- */
+.bin{display:flex;flex-direction:column;gap:14px}
+.bulbs{display:flex;gap:10px;justify-content:center;flex-wrap:nowrap}
+.bulb{font:inherit;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink);flex:1 1 0;max-width:86px;min-width:0}
+.bulb .pv{font-weight:700;font-size:.95rem;color:var(--ink-soft);background:var(--surface-2);border-radius:8px;padding:1px 8px}
+.bulb .lamp{width:100%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);border:3px solid var(--line);font-size:clamp(1.3rem,4vw,2rem);font-weight:800;color:var(--ink-soft);transition:background .2s,box-shadow .2s,border-color .2s}
+.bulb.on .lamp{background:var(--bit);border-color:var(--bit);color:#2a1d00;box-shadow:0 0 0 6px var(--bit-soft),0 0 28px var(--bit)}
+.bulb .st{font-size:.75rem;font-weight:600;color:var(--ink-soft)}
+.bin-sum{text-align:center;font-size:1.15rem;font-weight:600;min-height:1.7em}
+.bin-sum .big{font-size:1.6rem;font-weight:800;color:var(--accent)}
+.bin-goal{border-radius:14px;padding:10px 14px;background:var(--surface-2);font-weight:500;min-height:1em}
+.bin-goal:empty{display:none}
+.bin-goal.win{background:var(--ok-soft);color:var(--ink)}
+
+/* ---------- lesson ---------- */
+.crumbs{padding:18px 0 4px}
+.crumbs a{font-weight:600;text-decoration:none}
+.lesson-head{padding:10px 0 24px;border-bottom:3px solid var(--accent);margin-bottom:28px}
+.lesson-head .topic-tag{display:inline-block;font-weight:600;font-size:.88rem;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 12px;margin-bottom:10px}
+.lesson-head h1{font-size:clamp(2rem,4.6vw,3rem);font-weight:800;letter-spacing:-.02em;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.lesson-head h1 .ar{font-size:1.4rem}
+.goal{margin-top:12px;font-size:1.05rem;color:var(--ink-soft);max-width:44em}
+.step{margin:0 0 42px}
+.step-title{display:flex;align-items:center;gap:12px;font-size:1.5rem;font-weight:700;margin-bottom:16px}
+.sn{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:800;font-size:1.2rem;flex:none}
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.word{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.word-top{display:flex;align-items:center;gap:12px}
+.w-icon{width:52px;height:52px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center;font-size:1.7rem;flex:none}
+.word h3{font-size:1.1rem;font-weight:700;flex:1}
+.word h3 .ar{display:block;font-size:.95rem;text-align:left;white-space:normal}
+.word p{margin:0;font-size:.98rem}
+.word .ex{font-size:.9rem;color:var(--ink-soft);background:var(--surface-2);border-radius:10px;padding:6px 10px}
+.facts{margin-top:18px;background:var(--bit-soft);border:2px solid var(--bit);border-radius:18px;padding:16px 20px}
+.facts h3{font-size:1.1rem;margin-bottom:8px}
+.facts ul{margin:0;padding-left:1.2em}
+.facts li{margin:4px 0}
+.sim{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:20px;margin-bottom:18px}
+.sim h3{font-size:1.2rem;margin-bottom:4px}
+.sim-help{color:var(--ink-soft);font-size:.95rem;margin-bottom:14px}
+.sim-out{margin-top:12px;border-radius:14px;padding:12px 16px;background:var(--surface-2);font-weight:500}
+.sim-out.good{background:var(--ok-soft)}
+.sim-out.bad{background:var(--no-soft)}
+.svg{display:block;width:100%;height:auto;margin-top:12px;user-select:none;-webkit-user-select:none}
+.lesson-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0 48px;border-top:2px solid var(--line);margin-top:10px;padding-top:24px}
+.qlist{display:flex;flex-direction:column;gap:18px}
+
+/* ---------- SVG classes ---------- */
+.s-room{fill:var(--surface-2);stroke:var(--line);stroke-width:3}
+.s-dev{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.s-ink{fill:var(--ink)}
+.s-soft{fill:var(--ink-soft)}
+.s-txt{fill:var(--ink);font-family:var(--font);font-size:15px;font-weight:600}
+.s-txt.sm{font-size:12px;font-weight:500}
+.s-txt.lg{font-size:19px;font-weight:700}
+.s-txt.mid{text-anchor:middle}
+.s-txt.light{fill:#fff}
+.halo{paint-order:stroke;stroke:var(--surface);stroke-width:5px;stroke-linejoin:round}
+.s-acc{fill:var(--accent)}
+.s-acc-soft{fill:var(--accent-soft)}
+.s-wave{fill:none;stroke:var(--accent);stroke-width:3}
+.s-line{stroke:var(--ink-soft);stroke-width:4;fill:none;stroke-linecap:round}
+.s-cable{stroke-width:12;stroke-linecap:round;fill:none}
+.s-cable.copper{stroke:#C77A3A}
+.s-cable.fiber{stroke:var(--net-soft)}
+.s-cable-core{stroke-width:3;fill:none;stroke-linecap:round}
+.copper-core{stroke:#E8A060}
+.fiber-core{stroke:var(--net)}
+.s-machine{fill:var(--surface-2);stroke:var(--ink-soft);stroke-width:2.5}
+.s-noise{fill:none;stroke:var(--no);stroke-width:3;stroke-dasharray:8 6;animation:dash 0.6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-14}}
+.p-elec{fill:var(--bit)}
+.p-light{fill:#fff;stroke:var(--net);stroke-width:3}
+.p-bad{fill:var(--no)}
+.s-pipe{fill:none;stroke:var(--ink);stroke-width:4}
+.s-pipe-in{fill:var(--surface-2)}
+.s-water{fill:var(--accent);opacity:.28}
+.s-drop{fill:var(--accent)}
+.s-dim{stroke:var(--ink-soft);stroke-width:2;fill:none}
+.edge{stroke:var(--ink-soft);stroke-width:5;stroke-linecap:round;fill:none;transition:stroke .2s}
+.edge.cut{stroke:var(--no);stroke-dasharray:10 9}
+.hit{stroke:transparent;stroke-width:26;cursor:pointer;fill:none}
+.hit:hover + .edge, .edge.hover{stroke:var(--bit)}
+.node-pc rect.scr{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.node-pc.down rect.scr{fill:var(--no-soft);stroke:var(--no)}
+.node-pc.down .x{display:block}
+.node-pc .x{display:none;fill:var(--no)}
+.node-sw{fill:var(--accent);stroke:var(--ink);stroke-width:2}
+.node-sw.flash{fill:var(--bit)}
+.dot-req{fill:var(--bit);stroke:var(--ink);stroke-width:2}
+.dot-ok{fill:var(--ok);stroke:var(--ink);stroke-width:2}
+.dot-bad{fill:var(--no);stroke:var(--ink);stroke-width:2}
+.srv{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.srv.down{fill:var(--no-soft);stroke:var(--no)}
+.s-wall{fill:var(--surface-2)}
+.s-floor{fill:var(--line);opacity:.55}
+.s-belt{fill:var(--ink-soft)}
+.s-roller{fill:var(--surface);stroke:var(--ink-soft);stroke-width:2}
+.s-box{fill:var(--box);stroke:var(--box-dark);stroke-width:2}
+.s-tape{fill:var(--box-dark);opacity:.45}
+.s-label{fill:var(--label);stroke:var(--box-dark);stroke-width:1.5}
+.s-bar{stroke:#222;stroke-width:2}
+.s-ltxt{fill:#222;font-family:"Courier New",monospace;font-size:10px;font-weight:700}
+.s-crack{fill:none;stroke:#3a2410;stroke-width:3;stroke-linejoin:round}
+.s-torn{fill:var(--box-dark)}
+.s-vest{fill:var(--vest)}
+.s-pants{fill:var(--ink-soft)}
+.s-skin{fill:var(--skin)}
+.s-helmet{fill:var(--bit);stroke:#8a5c00;stroke-width:1.5}
+.ov{display:none}
+.ov.show{display:inline}
+.ov-frame{fill:none;stroke:var(--accent);stroke-width:8}
+.ov-tag{fill:var(--accent)}
+.ov-box{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-dasharray:9 5}
+.ov-box.h{stroke:var(--no)}
+.ov-tagh{fill:var(--no)}
+.ov-dim{fill:#000;opacity:.6}
+.ov-seg{fill:var(--ai)}
+.ov-seg2{fill:var(--bit);opacity:.95}
+.ov-ocr{fill:none;stroke:var(--ok);stroke-width:4}
+.scanline{fill:var(--ok);opacity:.55;animation:scan 1.6s ease-in-out infinite alternate}
+@keyframes scan{from{transform:translateY(0)}to{transform:translateY(40px)}}
+
+/* ---------- units / bars ---------- */
+.bytes{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 10px}
+.bitrow{display:flex;gap:5px}
+.bitrow span{width:34px;height:40px;border-radius:8px;display:grid;place-items:center;font-weight:700;background:var(--surface-2);border:2px solid var(--line)}
+.bitrow span.on{background:var(--bit);border-color:var(--bit);color:#2a1d00}
+.brace{width:min(330px,100%);height:14px;border:3px solid var(--accent);border-top:0;border-radius:0 0 14px 14px}
+.bytebox{font-weight:700;background:var(--accent);color:var(--on-accent);border-radius:12px;padding:6px 18px}
+.unit-break{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px}
+.unit-break div{background:var(--surface-2);border-radius:14px;padding:8px 14px;text-align:center;min-width:110px}
+.unit-break b{display:block;font-size:1.5rem;color:var(--accent)}
+.speedbars{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.sb{display:grid;grid-template-columns:130px 1fr 110px;align-items:center;gap:10px}
+.sb .nm{font-weight:600;font-size:.95rem}
+.sb .tr{height:30px;border-radius:9px;background:var(--surface-2);overflow:hidden;position:relative}
+.sb .fl{height:100%;width:0;background:var(--accent);border-radius:9px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.sb .fl.unknown{width:100%;background:repeating-linear-gradient(45deg,var(--surface-2) 0 10px,var(--line) 10px 20px)}
+.sb .vl{font-weight:700;font-size:.95rem;text-align:right}
+.sb.best .fl{background:var(--ok)}
+.diffbar{height:38px;border-radius:10px;background:var(--surface-2);position:relative;overflow:hidden;margin:8px 0}
+.diffbar .a{position:absolute;inset:0 auto 0 0;background:var(--accent);opacity:.35;transition:width .6s}
+.diffbar .b{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .6s}
+.diffbar .d{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,var(--bit) 0 8px,var(--bit-soft) 8px 16px);transition:left .6s,width .6s}
+select{font:inherit;font-size:.95rem;border:2px solid var(--line);border-radius:12px;padding:6px 10px;background:var(--surface);color:var(--ink);min-height:42px}
+label.sl{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.95rem;flex:1;min-width:220px}
+input[type=range]{width:100%;accent-color:var(--accent);height:30px}
+.meter{height:16px;border-radius:9px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .3s}
+
+/* ---------- language & prompts ---------- */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin-top:14px}
+.flow .card{background:var(--surface-2);border-radius:18px;padding:14px;min-height:130px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.flow .card small{font-weight:600;color:var(--ink-soft)}
+.flow .tool{background:var(--accent);color:var(--on-accent);text-align:center;font-weight:700;font-size:1.15rem}
+.flow .arrow{display:grid;place-items:center;font-size:1.6rem;color:var(--ink-soft)}
+.wave{display:flex;gap:4px;align-items:center;height:40px}
+.wave i{width:6px;border-radius:3px;background:var(--accent);animation:wv 1s ease-in-out infinite}
+@keyframes wv{0%,100%{height:8px}50%{height:36px}}
+.typed{font-weight:600;min-height:1.5em}
+.sortlist{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.sortitem{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--surface-2);border-radius:14px;padding:10px 12px}
+.sortitem .res{grid-column:1/-1;font-size:.92rem;font-weight:500}
+.sortitem.ok{background:var(--ok-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.9rem;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:7px 12px;cursor:pointer;text-align:left;min-height:40px}
+.chip.on{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.pb-row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:start;padding:10px 0;border-bottom:1px dashed var(--line)}
+.pb-row > b{padding-top:8px}
+.pb-row b i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+.chat{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.bubble{max-width:88%;padding:12px 16px;border-radius:18px;font-size:.98rem}
+.bubble.me{align-self:flex-end;background:var(--accent);color:var(--on-accent);border-bottom-right-radius:6px}
+.bubble.bot{align-self:flex-start;background:var(--surface-2);border-bottom-left-radius:6px}
+.bubble.bot ul{margin:4px 0 0;padding-left:1.2em}
+.bubble .who{display:block;font-size:.78rem;font-weight:700;opacity:.8;margin-bottom:2px}
+.stars{font-size:1.3rem;letter-spacing:2px}
+.memwrap{position:relative;display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.memmsg{background:var(--surface-2);border-radius:12px;padding:7px 12px;font-size:.9rem;transition:opacity .3s,filter .3s}
+.memmsg.first{background:var(--bit-soft);font-weight:600}
+.memmsg.inwin{outline:3px solid var(--accent);outline-offset:-3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surface-2);border-radius:16px;padding:14px}
+.panel h4{margin-bottom:6px}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap}
+.thumbs figure{margin:0;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:6px;text-align:center;font-size:.8rem;font-weight:600}
+
+/* ---------- questions ---------- */
+.q{position:relative;background:var(--surface);border:2px solid var(--line);border-left:8px solid var(--accent);border-radius:20px;padding:18px 20px 16px}
+.q-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.q-num{font-weight:800;font-size:1.05rem}
+.q-src{font-size:.8rem;color:var(--ink-soft);background:var(--surface-2);border-radius:999px;padding:2px 10px}
+.q-done{font-size:.8rem;font-weight:600;color:var(--ok);background:var(--ok-soft);border-radius:999px;padding:2px 10px}
+.q-head .say{margin-left:auto}
+.q-stem{font-size:1.06rem;font-weight:500}
+.q-stem p{margin:0 0 .5em}
+mark.key{background:var(--bit-soft);color:inherit;padding:0 4px;border-radius:5px;box-shadow:inset 0 -3px 0 var(--bit);font-weight:600}
+.q table{border-collapse:collapse;margin:6px 0 10px;font-size:.95rem}
+.q th,.q td{border:2px solid var(--line);padding:6px 14px;text-align:left}
+.q th{background:var(--surface-2)}
+.q ul.links{margin:4px 0 10px;padding-left:1.2em}
+code.bits{font-family:"Lexend",monospace;font-weight:800;letter-spacing:.12em;background:var(--bit-soft);padding:1px 8px;border-radius:6px}
+.opts{display:grid;gap:10px;margin:14px 0 10px}
+.opt{font:inherit;font-size:1rem;text-align:left;display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:16px;padding:10px 14px;cursor:pointer;min-height:52px;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.opt-l{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--surface-2)}
+.opt.wrong{border-color:var(--no);background:var(--no-soft);cursor:default}
+.opt.wrong .opt-l{background:var(--no);color:var(--on-accent)}
+.opt.wrong .opt-t{text-decoration:line-through;text-decoration-color:var(--no)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .opt-l{background:var(--ok);color:var(--on-accent)}
+.opt:disabled:not(.right):not(.wrong){opacity:.55;cursor:default}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.q-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tries{font-size:.88rem;color:var(--ink-soft);font-weight:500}
+.fb:empty{display:none}
+.fb{margin-top:12px}
+.fbx{border-radius:14px;padding:12px 16px;border-left:6px solid;margin-top:8px}
+.fbx p{margin:4px 0 0}
+.fbx.no{background:var(--no-soft);border-color:var(--no)}
+.fbx.hint{background:var(--bit-soft);border-color:var(--bit)}
+.fbx.ok{background:var(--ok-soft);border-color:var(--ok)}
+.bt{display:inline-grid;grid-auto-flow:column;gap:4px;margin:8px 0 2px}
+.bt span{display:flex;flex-direction:column;align-items:center;border-radius:8px;background:var(--surface);border:2px solid var(--line);padding:2px 8px;font-weight:700;min-width:40px}
+.bt span small{font-size:.72rem;color:var(--ink-soft);font-weight:600}
+.bt span.on{background:var(--bit);border-color:var(--bit);color:#2a1d00}
+.bt span.on small{color:#4a3600}
+.burst{position:absolute;width:10px;height:10px;border-radius:3px;pointer-events:none;animation:burst .9s ease-out forwards}
+@keyframes burst{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(260deg);opacity:0}}
+
+/* ---------- review ---------- */
+.rv-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:8px 0 14px;font-weight:600}
+.rv-bar{height:12px;border-radius:9px;background:var(--surface);border:2px solid var(--line);overflow:hidden;margin-bottom:18px}
+.rv-bar i{display:block;height:100%;background:var(--bit);transition:width .3s}
+.rv-nav{display:flex;justify-content:space-between;gap:10px;margin:18px 0 48px;flex-wrap:wrap}
+.done-card{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:30px;text-align:center;margin:20px 0 48px}
+.done-card .big{font-size:3rem;font-weight:800;color:var(--ok)}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding-top:28px;gap:24px}
+  .paths{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow .arrow{transform:rotate(90deg);min-height:28px}
+}
+@media (max-width:560px){
+  body{font-size:17px}
+  .wrap{padding:0 14px}
+  .overall .lbl{display:none}
+  .sb{grid-template-columns:90px 1fr 88px}
+  .pb-row{grid-template-columns:1fr}
+  .pb-row > b{padding-top:0}
+  .lesson-link{grid-template-columns:30px 36px 1fr auto;gap:8px;padding:10px 6px}
+  .q{padding:16px 14px 14px;border-left-width:6px}
+  .sim{padding:16px 12px}
+  .brand .bt-name{display:none}
+  .s-txt{font-size:18px}
+  .s-txt.sm{font-size:15px}
+  .track-head .ar{white-space:normal}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+
+:root{--ca:#2F6FD6;--cb:#E5701F;--code-bg:#EEF2F9;--mono:"JetBrains Mono","Consolas","Courier New",monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ca:#6FA3FF;--cb:#FF9B57;--code-bg:#0F1830}}
+:root[data-theme="dark"]{--ca:#6FA3FF;--cb:#FF9B57;--code-bg:#0F1830}
+[data-topic="knn"]{--accent:var(--net);--accent-soft:var(--net-soft)}
+[data-topic="svm"]{--accent:var(--ai);--accent-soft:var(--ai-soft)}
+code,pre{font-family:var(--mono)}
+code{font-size:.9em;background:var(--code-bg);border-radius:6px;padding:1px 6px}
+pre.code{background:var(--code-bg);border:2px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.84rem;line-height:1.55;overflow-x:auto;margin:8px 0;white-space:pre;color:var(--ink)}
+pre.code.out{border-style:dashed}
+.opt pre.code{margin:0;border:0;background:transparent;padding:0;font-size:.8rem;white-space:pre;overflow-x:auto;max-width:100%}
+.opt-t{min-width:0;overflow-x:auto}
+.opt code{background:transparent;padding:0}
+.q table{display:block;overflow-x:auto;max-width:100%}
+.fig{max-width:620px;background:var(--surface);border-radius:12px}
+.pA{fill:var(--ca);stroke:var(--surface);stroke-width:1.5}
+.pB{fill:var(--cb);stroke:var(--surface);stroke-width:1.5}
+.s-plot{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.s-legend{fill:var(--surface);stroke:var(--line)}
+.s-axis{stroke:var(--ink-soft);stroke-width:2}
+.s-gridl{stroke:var(--line);stroke-width:1}
+.knn-ring{fill:var(--accent-soft);fill-opacity:.55;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:8 6}
+.knn-link{stroke:var(--accent);stroke-width:2.5;stroke-dasharray:4 4}
+.nb-ring{fill:none;stroke:var(--bit);stroke-width:4}
+.tap{cursor:crosshair}
+.vote{margin-top:12px}
+.vote-row{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch}
+.vbox{background:var(--surface-2);border:3px solid transparent;border-radius:18px;padding:10px 18px;display:flex;align-items:center;gap:10px;min-width:120px}
+.vbox b{font-size:2rem;line-height:1}.vbox .vic{font-size:1.8rem}.vbox small{color:var(--ink-soft);font-weight:600}
+.vbox.win{border-color:var(--ok);background:var(--ok-soft)}
+.vres{flex:1;min-width:200px;background:var(--accent);color:var(--on-accent);border-radius:18px;padding:10px 18px;display:flex;flex-direction:column;justify-content:center;font-weight:600;font-size:.9rem}
+.vres b{font-size:1.3rem}
+.near{margin:10px 0 0;font-size:.92rem;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.near span{background:var(--surface-2);border-radius:999px;padding:2px 10px;font-weight:600}
+.tipline{font-size:.9rem;color:var(--ink-soft);margin:8px 0 0}
+.s-across{stroke:var(--net);stroke-width:5}.s-up{stroke:var(--ai);stroke-width:5}.s-hyp{stroke:var(--no);stroke-width:4;stroke-dasharray:8 5}
+.calc{background:var(--surface-2);border-radius:16px;padding:12px 16px;font-weight:500}
+.calc h4{margin-bottom:4px}
+.mini-steps{margin:6px 0 0;padding-left:1.4em}
+.mini-steps li{margin:4px 0;padding-left:2px}
+.mini-steps li::marker{font-weight:800;color:var(--accent)}
+.dt-wrap{overflow-x:auto;margin-top:12px}
+.dtable{border-collapse:collapse;font-size:.95rem;min-width:100%;background:var(--surface)}
+.dtable th,.dtable td{border:2px solid var(--line);padding:6px 12px;text-align:left;transition:background .3s}
+.dtable th{background:var(--surface-2)}
+.dtable .ix{color:var(--ink-soft);background:var(--surface-2);font-weight:600;width:36px;text-align:center}
+.dtable td.nan{color:var(--no);font-weight:700}
+.dtable.hl-nan td.nan{background:var(--no-soft);outline:3px solid var(--no);outline-offset:-3px}
+.dtable.hl-shape .ix,.dtable.hl-shape th{background:var(--bit-soft)}
+.dtable td.bad{background:var(--no-soft);outline:3px solid var(--no);outline-offset:-3px;font-weight:800}
+.dtable tr.dup td{background:var(--bit-soft)}
+.dtable td.filled{background:var(--ok-soft);font-weight:700}
+.dtable.cheat code{white-space:nowrap}
+.console{margin-top:10px;background:var(--code-bg);border:2px solid var(--line);border-radius:14px;padding:10px 14px;min-height:54px}
+.console p{margin:6px 0 0}
+.cin{font-family:var(--mono);font-size:.88rem;color:var(--accent);font-weight:600}
+.cout{margin:4px 0 0;font-size:.84rem;white-space:pre;overflow-x:auto}
+.codebtn{font-weight:500}.codebtn code{background:transparent;padding:0}
+.codebtn.on{background:var(--accent-soft);border-color:var(--accent)}
+.steps-btns{display:flex;flex-wrap:wrap;gap:8px}
+.s-histbar{fill:var(--accent);opacity:.75}
+.s-whisk{stroke:var(--ink);stroke-width:3}
+.s-boxp{fill:var(--accent-soft);stroke:var(--ink);stroke-width:3}
+.s-med{stroke:var(--ink);stroke-width:4}
+.s-outl{fill:var(--no);stroke:var(--surface);stroke-width:2}
+.lineA{fill:none;stroke:var(--ca);stroke-width:3}.lineB{fill:none;stroke:var(--cb);stroke-width:3}
+.ghost{fill:none;stroke:var(--ink-soft);stroke-width:2;stroke-dasharray:3 3}
+.rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.rules li{border-radius:12px;padding:8px 12px;font-weight:600}
+.rules li.ok{background:var(--ok-soft)}.rules li.no{background:var(--no-soft)}
+.share{display:flex;height:36px;border-radius:12px;overflow:hidden;margin-top:12px;border:2px solid var(--line)}
+.sh-inc,.sh-age{display:grid;place-items:center;font-weight:700;color:#fff;transition:width .6s;white-space:nowrap;overflow:hidden}
+.sh-inc{background:var(--net)}.sh-age{background:var(--ai)}
+.s-rulerbar{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.ruler-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:6px}
+.ruler-cards div{background:var(--surface-2);border-radius:14px;padding:10px 12px;font-size:.92rem}
+.legend-row{display:flex;flex-wrap:wrap;gap:16px;margin:12px 0 8px;font-size:.9rem;font-weight:600}
+.legend-row span{display:flex;align-items:center;gap:6px}
+.grid100{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;max-width:620px}
+.grid100.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(.98);opacity:.6}}
+.sq{display:block;aspect-ratio:1;border-radius:4px;position:relative;min-width:12px}
+.sq.tr{background:var(--surface-2);border:2px solid var(--line)}
+.sq.te{background:var(--accent);border:2px solid var(--accent)}
+.sq.fl::after{content:"";position:absolute;inset:22%;border-radius:50%;background:var(--no);box-shadow:0 0 0 2px var(--surface)}
+.legend-row .sq{width:18px;min-width:18px}
+.codelines span{display:block;border-radius:6px;padding:0 6px;margin:0 -6px;opacity:.55}
+.codelines span.ran{opacity:1}
+.codelines span.now{opacity:1;background:var(--bit-soft);box-shadow:inset 4px 0 0 var(--bit)}
+.gapbars{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.gapbars>div{display:grid;grid-template-columns:80px 1fr;align-items:center;gap:10px;font-weight:600}
+.gb{height:26px;border-radius:8px;background:var(--surface-2);overflow:hidden}
+.gb i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.cm{display:grid;grid-template-columns:130px 1fr 1fr;gap:6px;max-width:460px}
+.cm-h{font-weight:600;font-size:.88rem;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px}
+.cm-c{background:var(--surface-2);border:3px solid var(--line);border-radius:12px;font-size:1.6rem;font-weight:800;text-align:center;padding:14px;transition:all .3s}
+.cm-c.diag{background:var(--ok-soft);border-color:var(--ok)}
+.cm-c.wrongc{background:var(--no-soft);border-color:var(--no)}
+input.num{font:inherit;width:110px;border:2px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--surface);color:var(--ink);min-height:42px}
+.s-road{fill:var(--bit);fill-opacity:.22}
+.s-edge{stroke:var(--ink-soft);stroke-width:2.5;stroke-dasharray:9 6}
+.s-mid{stroke:var(--ink);stroke-width:4}
+.s-badline{stroke:var(--no);stroke-width:4;stroke-dasharray:10 8}
+.sv-ring{fill:none;stroke:var(--no);stroke-width:3.5}
+.s-dimline{stroke:var(--ink);stroke-width:2;marker-start:none}
+.s-safe{stroke:var(--ok);stroke-width:3;stroke-dasharray:6 5}
+.s-hinge{fill:none;stroke:var(--accent);stroke-width:6;stroke-linejoin:round;stroke-linecap:round}
+.s-kline{fill:none;stroke:var(--ink);stroke-width:4;stroke-dasharray:12 7}
+.flowrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:12px}
+.flowrow span{border:2px solid var(--line);border-radius:10px;padding:4px 12px;font-weight:700;background:var(--surface)}
+.flowrow span.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.flowrow b{color:var(--ink-soft)}
+.flowrow.big span{font-size:1.15rem;padding:8px 16px}
+.ocards{display:grid;gap:8px}
+.ocard{font:inherit;text-align:left;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;overflow-x:auto}
+.ocard pre{margin:0;font-size:.82rem;white-space:pre}
+.ocard:hover:not(:disabled){border-color:var(--accent)}
+.ocard.placed{background:var(--ok-soft);border-color:var(--ok);cursor:default}
+.ostep{background:var(--ok);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-weight:700;font-size:.8rem;flex:none}
+.leakrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:stretch}
+.lbox{width:52px;border-radius:10px;border:2px solid var(--line);background:var(--surface-2);display:flex;flex-direction:column;align-items:center;padding:6px 0;font-size:1.2rem;opacity:.45}
+.lbox small{font-size:.65rem;font-weight:700}
+.lbox.seen{opacity:1;border-color:var(--accent)}
+.lbox.test{background:var(--bit-soft)}
+.lbox.test.seen{border-color:var(--no);box-shadow:0 0 0 3px var(--no-soft)}
+.lruler{flex-basis:100%;font-weight:500;margin-top:4px}
+.bigidea{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:start;background:var(--surface);border:3px solid var(--accent);border-radius:24px;padding:22px}
+.bigidea .em{font-size:3.4rem;line-height:1}
+.bigidea h3{font-size:clamp(1.25rem,2.6vw,1.6rem);font-weight:600;line-height:1.35}
+.bigidea h3 b{font-weight:800;color:var(--accent)}
+.everyday{background:var(--accent-soft);border-radius:16px;padding:12px 16px;margin-top:14px;font-size:1rem}
+.formula-box{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px;background:var(--ink);color:var(--paper);border-radius:18px;padding:14px 20px}
+.formula-box span{font-weight:700;font-size:.9rem;opacity:.85}
+.formula-box code{background:transparent;color:inherit;font-size:1.08rem;font-weight:600;white-space:pre-wrap}
+.lesson-steps{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;counter-reset:ls}
+.lesson-steps li{counter-increment:ls;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:3px 14px 3px 4px;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.lesson-steps li::before{content:counter(ls);width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:.8rem}
+.topic-tag.soft{background:var(--surface);border:1px solid var(--line);color:var(--ink-soft)}
+.routine{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;counter-reset:rt}
+.routine li{counter-increment:rt;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;background:var(--surface-2);border-radius:14px;padding:8px 12px}
+.routine .ri{font-size:1.5rem;width:44px;height:44px;border-radius:12px;background:var(--surface);display:grid;place-items:center;position:relative}
+.routine .ri::after{content:counter(rt);position:absolute;top:-6px;left:-6px;width:20px;height:20px;border-radius:50%;background:var(--net);color:var(--on-accent);font-size:.72rem;font-weight:800;display:grid;place-items:center}
+.routine b{display:block;line-height:1.2}.routine small{color:var(--ink-soft);font-size:.86rem;line-height:1.3;display:block}
+.routine-mini{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 16px}
+.routine-mini span{font-size:.82rem;font-weight:600;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.btn.primary-dark{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ladder:empty{display:none}
+.ladder{margin:12px 0 0;padding:12px 16px 12px 2.2em;background:var(--accent-soft);border-radius:14px;border-left:6px solid var(--accent)}
+.ladder li{margin:4px 0;animation:fadein .35s}
+.ladder li::marker{font-weight:800;color:var(--accent)}
+@keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.hero h1{font-size:clamp(2.1rem,5vw,3.5rem)}
+@media (max-width:560px){
+  .bigidea{grid-template-columns:1fr auto;padding:16px}
+  .bigidea .em{display:none}
+  .cm{grid-template-columns:90px 1fr 1fr}
+  .cm-c{font-size:1.25rem;padding:10px}
+  .grid100{gap:3px}
+  .sq{min-width:0}
+  .vres{min-width:100%}
+}
+/* ---------- data-table additions ---------- */
+:root{--inc:#1E63C8;--inc-soft:#E4EEFF;--age:#8A3FD6;--age-soft:#F2E8FF;--ylab:#B8520F;--ylab-soft:#FFEEDF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--inc:#86B4FF;--inc-soft:#172A4B;--age:#CDA4FF;--age-soft:#2C1F47;--ylab:#FFAB70;--ylab-soft:#3A2414}}
+:root[data-theme="dark"]{--inc:#86B4FF;--inc-soft:#172A4B;--age:#CDA4FF;--age-soft:#2C1F47;--ylab:#FFAB70;--ylab-soft:#3A2414}
+.dtable th.th-inc{background:var(--inc-soft);color:var(--inc)}
+.dtable th.th-age{background:var(--age-soft);color:var(--age)}
+.dtable th.th-y{background:var(--ylab-soft);color:var(--ylab)}
+.dtable th.th-x{background:linear-gradient(90deg,var(--inc-soft),var(--age-soft));text-align:center}
+.dtable td.c-inc{box-shadow:inset 4px 0 0 var(--inc)}
+.dtable td.c-age{box-shadow:inset 4px 0 0 var(--age)}
+.dtable td.c-y{box-shadow:inset 4px 0 0 var(--ylab)}
+.dtable td.c-min{background:var(--ok-soft);font-weight:800}
+.dtable td.c-min::after{content:" min";font-size:.7rem;font-weight:800;color:var(--ok)}
+.dtable td.c-max{background:var(--bit-soft);font-weight:800}
+.dtable td.c-max::after{content:" max";font-size:.7rem;font-weight:800;color:#a46a00}
+.dtable td.sc{font-weight:700;animation:fadein .35s}
+.dtable td.qm{color:var(--ink-soft);text-align:center}
+.dtable td.over{background:var(--no-soft);color:var(--no)}
+.dtable td.over::after{content:" > 1";font-size:.7rem;font-weight:800}
+.dtable tr.sep td{border-top:3px dashed var(--ink-soft);background:var(--surface-2);font-size:.85rem;font-weight:600;color:var(--ink-soft)}
+.dtable tr.newrow td{background:var(--accent-soft);font-style:italic}
+.dtable tr.hl td{background:var(--bit-soft)}
+.dtable tr.hl td.c-min,.dtable tr.hl td.c-max{background:var(--bit-soft)}
+.dtable tr.fade td{opacity:.55}
+.dtable tr.done td{opacity:.6}
+.dtable tr.testrow td{background:var(--accent-soft)}
+.dtable tr.badrow td{background:var(--no-soft);color:var(--no);font-weight:600}
+.dtable.pop{animation:pop .35s}
+.ttag{display:inline-block;font-size:.7rem;font-weight:800;background:var(--accent);color:var(--on-accent);border-radius:6px;padding:0 6px;font-style:normal}
+.yn{display:inline-block;font-weight:700;font-size:.85rem;border-radius:999px;padding:0 9px}
+.yn.yes{background:var(--ok-soft);color:var(--ok)}.yn.no{background:var(--no-soft);color:var(--no)}
+.data-note{font-size:.92rem;font-weight:500;background:var(--surface-2);border-radius:12px;padding:8px 12px;margin:0 0 10px}
+.spboxes{display:grid;grid-template-columns:2fr 1fr 2fr 1fr;gap:10px;margin-top:12px}
+.sbox{border:3px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;animation:fadein .4s}
+.sbox code{font-weight:700;font-size:.95rem;background:transparent;padding:0}
+.sbox small{color:var(--ink-soft);font-weight:600;font-size:.78rem;line-height:1.3}
+.sbox.tr{border-color:var(--line);background:var(--surface)}
+.sbox.te{border-color:var(--accent);background:var(--accent-soft)}
+table.mini{border-collapse:collapse;font-size:.82rem;margin-top:2px}
+table.mini th,table.mini td{border:1px solid var(--line);padding:2px 8px;text-align:left}
+table.mini th{background:var(--surface-2)}
+.ladder table.mini{margin:6px 0 2px;background:var(--surface)}
+.dtable.mini2{font-size:.85rem}
+.dtable.mini2 th,.dtable.mini2 td{padding:4px 9px}
+.btn.primary-code{background:var(--ok-soft);border-color:var(--ok)}
+.chiprow{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 4px}
+.vchip{display:inline-flex;flex-direction:column;align-items:center;border:2px solid var(--line);background:var(--surface);border-radius:9px;padding:2px 8px;font-weight:700;font-size:.85rem;min-width:56px}
+.vchip small{font-size:.65rem;font-weight:800;line-height:1.1}
+.vchip.inbox{background:var(--accent-soft);border-color:var(--accent)}
+.vchip.out{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+.cm-c.flash{animation:cmflash .6s}
+@keyframes cmflash{40%{transform:scale(1.12);background:var(--bit-soft);border-color:var(--bit)}}
+.have{margin:6px 0 0;padding-left:1.2em;font-size:.92rem}
+.have li{margin:3px 0}
+.dtable.tally{font-size:.9rem}
+@media (max-width:820px){.spboxes{grid-template-columns:1fr 1fr}}
+
+.sh-inc{background:var(--inc)!important}.sh-age{background:var(--age)!important}
+.sh-inc,.sh-age{color:var(--on-accent)!important}
+table.mini .who{color:var(--ink-soft);font-style:italic;font-size:.75rem}
+.dtable th.th-inc, table.mini th.th-inc{background:var(--inc-soft);color:var(--inc)}
+table.mini th.th-age{background:var(--age-soft);color:var(--age)}
+table.mini th.th-y{background:var(--ylab-soft);color:var(--ylab)}
+.opts{grid-template-columns:minmax(0,1fr)}
+.opt{min-width:0;max-width:100%}
+.opt code{white-space:normal;overflow-wrap:anywhere}
+.q-stem code{overflow-wrap:anywhere}
+.sbox{min-width:0;overflow-x:auto}
+@media (max-width:560px){.spboxes{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px}.sbox{padding:6px}table.mini th,table.mini td{padding:2px 5px}}
+/* ---------- Watch it slowly ---------- */
+details.slow>summary{cursor:pointer;font-weight:600;color:var(--ink-soft);margin-bottom:12px;list-style-position:inside}
+.slowsim{border-color:var(--bit);border-width:3px}
+.slowsim.yousim{border-color:var(--ok);border-style:dashed}
+.tr-top{margin-bottom:8px}
+.tr-scene .svg{margin-top:4px}
+.tr-say{display:flex;gap:12px;align-items:flex-start;background:var(--bit-soft);border-radius:16px;padding:12px 16px;margin-top:10px;font-size:1.08rem;font-weight:500;min-height:58px}
+.tr-step{flex:none;background:var(--ink);color:var(--paper);border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:700;margin-top:3px}
+.tr-q{margin-top:10px;background:var(--surface-2);border-radius:14px;padding:12px 14px}
+.tr-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tr-opts .btn.no{border-color:var(--no);background:var(--no-soft);text-decoration:line-through}
+.tr-work{margin-top:10px;border:2px dashed var(--line);border-radius:14px;padding:10px 14px}
+.tr-work ol{margin:6px 0 0;padding-left:1.4em}
+.tr-work li{margin:3px 0}
+.tr-work li.new{background:var(--bit-soft);border-radius:6px;padding:0 6px;margin-left:-6px;animation:fadein .4s}
+.tr-work li.empty{list-style:none;margin-left:-1.4em;color:var(--ink-soft);font-size:.9rem}
+.tr-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.tr-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.tr-dots i{width:10px;height:10px;border-radius:50%;background:var(--surface-2);border:2px solid var(--line)}
+.tr-dots i.past{background:var(--ok);border-color:var(--ok)}
+.tr-dots i.now{background:var(--bit);border-color:var(--bit);transform:scale(1.3)}
+.cx,.cxs{color:var(--inc);font-weight:700}.cy,.cys{color:var(--age);font-weight:700}.cd{color:var(--no)}
+text.cxs{fill:var(--inc)}text.cys{fill:var(--age)}
+.tr-x{stroke:var(--inc);stroke-width:7;stroke-linecap:round}.tr-y{stroke:var(--age);stroke-width:7;stroke-linecap:round}
+.tr-xd{fill:var(--inc)}.tr-yd{fill:var(--age)}
+.tr-gx{stroke:var(--inc);stroke-width:2.5;stroke-dasharray:5 5}.tr-gy{stroke:var(--age);stroke-width:2.5;stroke-dasharray:5 5}
+.tile-x{fill:var(--inc)}.tile-y{fill:var(--age)}
+.enter{animation:enterfade .6s ease}
+@keyframes enterfade{from{opacity:0}to{opacity:1}}
+.mv{animation:mv .8s cubic-bezier(.3,.7,.3,1)}
+@keyframes mv{from{transform:translate(var(--fx),var(--fy))}to{transform:translate(0,0)}}
+.dtable td.pulse{animation:cellpulse 1s ease 2}
+@keyframes cellpulse{50%{background:var(--bit);color:#2a1d00}}
+.rope{fill:none;stroke:#9a6b3f;stroke-width:4;stroke-dasharray:2 0}
+.ghosted{opacity:.18}
+.pmid{fill:var(--accent);stroke:var(--surface);stroke-width:1.5}
+.pbox{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+.bboxes{display:flex;gap:12px;justify-content:center}
+.bbox{flex:1;max-width:190px;border:3px solid var(--line);border-top-width:8px;border-radius:0 0 16px 16px;padding:8px;min-height:150px;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface)}
+.bbox.win{border-color:var(--ok);background:var(--ok-soft)}
+.bb-ic{font-size:2rem}.bb-in{display:flex;flex-direction:column;gap:4px;flex:1}.bb-n{font-size:1.6rem}
+.bb-empty{color:var(--ink-soft);font-size:.85rem}
+.ballot{background:var(--bit-soft);border:2px solid var(--bit);border-radius:8px;padding:1px 8px;font-weight:700;font-size:.85rem}
+.ballot.drop{animation:drop .6s cubic-bezier(.3,1.4,.5,1)}
+@keyframes drop{from{transform:translateY(-40px);opacity:0}to{transform:none;opacity:1}}
+.yt{background:var(--surface-2);border-radius:16px;padding:12px 16px;margin-bottom:12px}
+.yt h4{margin-bottom:8px}
+.blk{display:flex;flex-direction:column;gap:6px}
+.blk-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.blk-l{min-width:190px;font-weight:500}
+.blk-given{font-size:1.05rem;padding:0 8px}
+.blk-in{width:90px}
+.blk-in.ok{border-color:var(--ok);background:var(--ok-soft)}
+.blk-in.no{border-color:var(--no);background:var(--no-soft)}
+.blk-fb{font-weight:700;color:var(--ok)}
+.blk-hint{color:var(--ink);font-weight:500;font-size:.9rem}
+.yt-done{margin:8px 0 0;font-weight:600;color:var(--ok)}
+.yt-done:empty{display:none}
+.yt-done.bad{color:var(--no)}
+.yt-task{margin:6px 0;font-weight:500}
+.vchip.pick{cursor:pointer;font:inherit;font-weight:700;color:var(--ink);min-width:48px;padding:6px 10px;font-size:1rem}
+@media (max-width:560px){.blk-l{min-width:0;width:100%}.tr-say{font-size:1rem;flex-direction:column;gap:6px}}
+@media (max-width:640px){.sortitem{grid-template-columns:minmax(0,1fr)}.sortitem code{overflow-wrap:anywhere}}
+/* ---------- walkthrough scenes (lessons 3-9) ---------- */
+.scene-cap{font-weight:500;margin:0 0 8px}
+.cup{fill:none;stroke:var(--ink-soft);stroke-width:3}
+.water{fill:#4AA3E8;opacity:.85}
+.water.fillc{fill:var(--ok)}
+.wgrow{transform-box:fill-box;transform-origin:bottom;animation:wgrow .7s ease}
+@keyframes wgrow{from{transform:scaleY(var(--s))}to{transform:scaleY(1)}}
+.meanline{stroke:var(--ok);stroke-width:3;stroke-dasharray:8 5}
+.maparrow{stroke:var(--inc);stroke-width:2.5;stroke-dasharray:5 4;fill:none}
+.maparrow.bad{stroke:var(--no)}
+.diffbars{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.diffbars>div{display:grid;grid-template-columns:150px 1fr 70px;align-items:center;gap:10px;font-weight:600;font-size:.92rem}
+.db{height:26px;border-radius:8px;background:var(--surface-2);overflow:hidden}
+.db i{display:block;height:100%;transition:width .7s}
+.dbx{background:var(--inc)}.dby{background:var(--age)}
+.cookies{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.cookies.sm{grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:5px;margin-top:4px}
+.cookie{border:2px solid var(--line);border-radius:12px;background:var(--surface);padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.8rem;text-align:center}
+.cookie.te{border-color:var(--ok);border-width:3px;background:var(--ok-soft)}
+.ck-ic{font-size:1.5rem}.ck-y{font-size:.78rem}
+.cookies.sm .cookie{font-size:.72rem;padding:4px}.cookies.sm .ck-ic{font-size:1.1rem}
+.spboxes.ck{grid-template-columns:minmax(0,2fr) minmax(0,2fr)}
+.sweets{display:grid;grid-template-columns:repeat(10,minmax(0,44px));gap:8px}
+.sweet{aspect-ratio:1;border-radius:50%;background:#F5C518;box-shadow:inset -4px -4px 0 rgba(0,0,0,.12)}
+.sweet.red{background:#E0453A}
+.sweet.picked{outline:4px solid var(--ink);outline-offset:3px}
+.bags{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.bag{border:2px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;align-items:center;font-size:.76rem;text-align:center;background:var(--surface);position:relative}
+.bag.ok{border-color:var(--ok);background:var(--ok-soft)}.bag.no{border-color:var(--no);background:var(--no-soft)}
+.bag-ic{font-size:1.4rem}.bag-m{position:absolute;top:2px;right:6px;font-size:1.1rem;font-weight:800}
+.cm-c{line-height:1.3;word-break:break-all}
+.exams{display:flex;flex-direction:column;gap:10px}
+.exam{background:var(--surface-2);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;position:relative}
+.eb{display:grid;grid-template-columns:70px 1fr 40px;align-items:center;gap:8px;font-size:.88rem}
+.gb i.ex{background:var(--bit)}
+.verdict-tag{position:absolute;top:8px;right:12px;font-weight:700;background:var(--surface);border-radius:999px;padding:2px 10px;font-size:.85rem}
+.ruler-obj{fill:#E9C46A;stroke:#9a7b22;stroke-width:2}
+.rope-obj{fill:none;stroke:#9a6b3f;stroke-width:6;stroke-dasharray:3 4}
+.sw-r{fill:#E0453A;stroke:var(--surface);stroke-width:2}.sw-y{fill:#F5C518;stroke:var(--surface);stroke-width:2}
+.recipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rstep{border:2px dashed var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:4px;min-height:120px;background:var(--surface)}
+.rstep.on{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+.ri2{font-size:1.8rem}.rstep small{font-size:.82rem;color:var(--ink-soft)}.rstep code{font-size:.72rem;overflow-wrap:anywhere}
+.peekrow{display:flex;gap:10px}
+.pk{display:flex;flex-direction:column;align-items:center;justify-content:center;width:70px;height:62px;border-radius:12px;font-size:1.3rem;font-weight:800;border:3px solid var(--line);background:var(--surface)}
+.pk small{font-size:.7rem;font-weight:700;color:var(--ink-soft)}
+.pk.te{border-color:var(--bit);background:var(--bit-soft)}
+@media (max-width:640px){.cookies{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.cookie{font-size:.62rem;padding:3px}.bags{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.bag{font-size:.6rem;padding:3px}.recipe{grid-template-columns:repeat(2,minmax(0,1fr))}.diffbars>div{grid-template-columns:90px 1fr 50px;font-size:.8rem}.sweets{gap:5px}.spboxes.ck{grid-template-columns:minmax(0,1fr)}}
+.tr-scene,.tr-top,.yt{overflow-x:auto;max-width:100%}
+
+/* ---------- exam ---------- */
+body{user-select:none;-webkit-user-select:none}
+input{user-select:text;-webkit-user-select:text}
+.exwrap{max-width:900px;margin:0 auto;padding:24px 18px 60px;position:relative}
+.exwrap.wide{max-width:1000px;padding-top:12px}
+.excard{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:26px}
+.excard h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin:4px 0 14px}
+.excard .rules{margin:0 0 18px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.formgrid label{display:flex;flex-direction:column;gap:4px;font-weight:600}
+.formgrid input{width:100%}
+.agree{display:flex;gap:8px;align-items:center;margin-top:14px;font-weight:600}
+.btn.big{min-height:54px;font-size:1.05rem;padding:10px 24px}
+.btn.danger{border-color:var(--no);color:var(--no)}
+.linkbtn{font:inherit;background:none;border:0;color:var(--ink-soft);text-decoration:underline;cursor:pointer;font-size:.85rem}
+.linkbtn.corner{position:absolute;right:18px;top:6px}
+.exbar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border-bottom:2px solid var(--line);padding:10px 18px}
+.exstat{display:flex;gap:18px;font-size:.95rem}
+.palette{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+.qdot{font:inherit;font-size:.8rem;font-weight:700;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;padding:0}
+.qdot.ok{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.qdot.now{outline:3px solid var(--bit);outline-offset:2px}
+.exq{border-left-color:var(--ink)}
+.opt.chosen{border-color:var(--ink);background:var(--surface-2);box-shadow:inset 0 0 0 2px var(--ink)}
+.opt.chosen .opt-l{background:var(--ink);color:var(--paper)}
+.submitbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;border-top:2px dashed var(--line);padding-top:16px}
+.fsbanner{background:var(--no-soft);color:var(--ink);border-radius:12px;padding:8px 14px;margin:10px auto 0;max-width:1000px;font-weight:600}
+.lockscreen{position:fixed;inset:0;z-index:100;background:rgba(14,21,37,.94);display:grid;place-items:center;padding:20px}
+.lockbox{background:var(--surface);color:var(--ink);border-radius:24px;padding:28px;max-width:520px;text-align:center}
+.lock-ic{font-size:3.4rem}
+.pwmodal{position:fixed;inset:0;z-index:120;background:rgba(14,21,37,.7);display:grid;place-items:center;padding:20px}
+.pwbox{background:var(--surface);color:var(--ink);border-radius:20px;padding:22px;width:min(420px,100%);max-height:90vh;overflow:auto}
+.pwbox.wide{width:min(900px,100%)}
+.pwin{width:100%;font-size:1.2rem;letter-spacing:.2em}
+.pwerr{color:var(--no);font-weight:700;margin:6px 0 0}
+.tbtns{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+.wlog{margin:6px 0;padding-left:1.2em;font-size:.9rem}
+.unlockbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:130;background:var(--ok);color:#fff;font-weight:700;border-radius:999px;padding:10px 20px}
+.result{text-align:center}
+.ring{--p:0;width:200px;height:200px;border-radius:50%;margin:10px auto 16px;display:grid;place-items:center;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--surface-2) 0)}
+.ring.pass{--c:var(--ok)}.ring.fail{--c:var(--no)}
+.ring>div{width:156px;height:156px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring b{font-size:2rem}.ring span{font-size:1.2rem;font-weight:700;color:var(--ink-soft)}
+.resmsg{font-size:1.25rem;font-weight:700}
+.restbl{margin:12px auto;max-width:520px;text-align:left}
+@media (max-width:600px){.formgrid{grid-template-columns:1fr}}
+/* ---------- review ---------- */
+.rvq{margin-bottom:16px}
+.rvq.iswrong{border-left-color:var(--no)}.rvq.isok{border-left-color:var(--ok)}
+.rvtag{font-size:.82rem;font-weight:800;border-radius:999px;padding:2px 10px}
+.rvtag.ok{background:var(--ok-soft);color:var(--ok)}.rvtag.no{background:var(--no-soft);color:var(--no)}
+.rvopt{cursor:default;flex-wrap:wrap}
+.rvopt.right{border-color:var(--ok);background:var(--ok-soft)}.rvopt.right .opt-l{background:var(--ok);color:var(--on-accent)}
+.rvopt.yours{border-color:var(--no);background:var(--no-soft)}.rvopt.yours .opt-l{background:var(--no);color:var(--on-accent)}
+.rvopt.dim{opacity:.6}
+.rvmark{margin-left:auto;font-size:.8rem;font-weight:800;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.rvmark.ok{background:var(--ok);color:var(--on-accent)}.rvmark.no{background:var(--no);color:var(--on-accent)}
+.rvwhy{border-radius:12px;padding:8px 12px;margin:8px 0 0;border-left:5px solid}
+.rvwhy.ok{background:var(--ok-soft);border-color:var(--ok)}.rvwhy.no{background:var(--no-soft);border-color:var(--no)}
+.legend-r{display:flex;gap:8px;font-size:.85rem;font-weight:700}
+.lg{border-radius:999px;padding:3px 10px}.lg.your{background:var(--no-soft);color:var(--no)}.lg.right{background:var(--ok-soft);color:var(--ok)}
+.rvopt .opt-t{flex:1 1 0;min-width:0}.rvopt .opt-l{flex:none}
+
+.rvmark{display:table;margin:6px 0 0}
+
+code.bits{font-family:"Lexend",monospace;font-weight:800;letter-spacing:.12em;background:var(--bit-soft);padding:1px 8px;border-radius:6px}
+.bt{display:inline-grid;grid-auto-flow:column;gap:4px;margin:8px 0 2px}
+.bt span{display:flex;flex-direction:column;align-items:center;border-radius:8px;background:var(--surface);border:2px solid var(--line);padding:2px 8px;font-weight:700;min-width:40px}
+.bt span small{font-size:.72rem;color:var(--ink-soft);font-weight:600}
+.bt span.on{background:var(--bit);border-color:var(--bit);color:#2a1d00}
+.bt span.on small{color:#4a3600}
+
+/* ---------- CSC40 exam theme: "Plum" ---------- */
+:root{
+  --paper:#FBF4FB; --grid:#F1E1F1; --surface:#FFFFFF; --surface-2:#F8ECF8; --ink:#2A1030; --ink-soft:#6A4A70; --line:#E8D2EA;
+  --net:#86198F; --net-soft:#F6E1F8; --ai:#86198F; --ai-soft:#F6E1F8; --accent:#86198F; --accent-soft:#F6E1F8; --on-accent:#FFFFFF;
+  --bit:#F2B32B; --bit-soft:#FDEFC8; --code-bg:#F7EEF8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#170A1A; --grid:#231126; --surface:#1F0F23; --surface-2:#2B1630; --ink:#F8EAF9; --ink-soft:#CDB0D2; --line:#48294F;
+    --net:#F0ABFC; --net-soft:#3A1A41; --ai:#F0ABFC; --ai-soft:#3A1A41; --accent:#F0ABFC; --accent-soft:#3A1A41; --on-accent:#170A1A;
+    --bit:#FACC5A; --bit-soft:#3D3012; --code-bg:#1C0D20;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#170A1A; --grid:#231126; --surface:#1F0F23; --surface-2:#2B1630; --ink:#F8EAF9; --ink-soft:#CDB0D2; --line:#48294F;
+  --net:#F0ABFC; --net-soft:#3A1A41; --ai:#F0ABFC; --ai-soft:#3A1A41; --accent:#F0ABFC; --accent-soft:#3A1A41; --on-accent:#170A1A;
+  --bit:#FACC5A; --bit-soft:#3D3012; --code-bg:#1C0D20;
+}
+body{background-image:radial-gradient(circle at 1px 1px,var(--grid) 1.5px,transparent 0);background-size:20px 20px}
+.excard{border-color:var(--line);border-top:8px solid var(--accent);box-shadow:0 10px 30px rgba(134,25,143,.10)}
+.exbar{background:linear-gradient(90deg,#581C87,#86198F 55%,#BE185D);color:#fff;border-bottom:0}
+.exbar .tipline,.exbar .linkbtn{color:rgba(255,255,255,.85)}
+.exbar .btn{background:rgba(255,255,255,.15);border-color:#fff;color:#fff}
+.exq{border-left-color:var(--accent)}
+.qdot.ok{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.qdot.now{outline-color:var(--bit)}
+button.opt:hover:not(:disabled):not(.chosen){border-color:var(--accent);background:var(--accent-soft)}
+.opt.chosen{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent)}
+.opt.chosen .opt-l{background:var(--accent);color:var(--on-accent)}
+.rules li.ok{background:var(--accent-soft)}
+.lockscreen{background:rgba(23,10,26,.95)}
+.ring.pass{--c:var(--accent)}
+.seg button.on{background:var(--accent);color:var(--on-accent)}
+.hero-sub{color:var(--accent)}
+.rvopt:hover{background:inherit}.rvopt.right:hover{background:var(--ok-soft)}.rvopt.yours:hover{background:var(--no-soft)}
+
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+'use strict';
+/* ===================== HELPERS ===================== */
+const NS = 'http://www.w3.org/2000/svg';
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function plain(html){ const d=document.createElement('div'); d.innerHTML=html; return d.textContent.replace(/\s+/g,' ').trim(); }
+const fmt = n => Number(n).toLocaleString('en-US');
+function speak(text){ try{ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=0.85; speechSynthesis.speak(u); }catch(e){} }
+function svgEl(tag, attrs, parent){ const e=document.createElementNS(NS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); if(parent) parent.appendChild(e); return e; }
+
+let cleanups = [];
+function runCleanups(){ cleanups.forEach(f=>{ try{ f(); }catch(e){} }); cleanups=[]; try{ speechSynthesis.cancel(); }catch(e){} }
+function loop(fn){ let alive=true, id=0; const step=t=>{ if(!alive) return; fn(t); id=requestAnimationFrame(step); }; id=requestAnimationFrame(step); cleanups.push(()=>{ alive=false; cancelAnimationFrame(id); }); }
+function tween(dur, onStep, onDone){ const st=performance.now(); let alive=true; cleanups.push(()=>{ alive=false; }); const step=now=>{ if(!alive) return; const p=Math.min(1,(now-st)/dur); onStep(p); if(p<1) requestAnimationFrame(step); else if(onDone) onDone(); }; requestAnimationFrame(step); }
+function later(ms, fn){ const id=setTimeout(fn, ms); cleanups.push(()=>clearTimeout(id)); }
+function moveDot(parent, pts, cls, dur, done){
+  const c = svgEl('circle',{r:9,class:cls,cx:pts[0][0],cy:pts[0][1]},parent);
+  const segs=[]; let total=0;
+  for(let i=1;i<pts.length;i++){ const L=Math.hypot(pts[i][0]-pts[i-1][0], pts[i][1]-pts[i-1][1]); segs.push(L); total+=L; }
+  tween(dur, p=>{
+    let d=p*total, i=0;
+    while(i<segs.length-1 && d>segs[i]){ d-=segs[i]; i++; }
+    const f = segs[i] ? Math.min(1, d/segs[i]) : 1;
+    const a=pts[i], b=pts[i+1]||pts[i];
+    c.setAttribute('cx', a[0]+(b[0]-a[0])*f); c.setAttribute('cy', a[1]+(b[1]-a[1])*f);
+  }, ()=>{ c.remove(); if(done) done(); });
+}
+function segBind(el, sel, cb){ $$(sel+' button', el).forEach(b=>b.addEventListener('click', ()=>{ $$(sel+' button', el).forEach(x=>x.classList.toggle('on', x===b)); cb(b); })); }
+function laptop(x,y){ return `<g transform="translate(${x-22},${y-16})"><rect width="44" height="28" rx="3" class="s-dev"/><rect x="5" y="5" width="34" height="18" rx="2" class="s-acc-soft"/><rect x="-6" y="28" width="56" height="6" rx="3" class="s-ink"/></g>`; }
+function pcIcon(x,y,label,extraCls){ return `<g class="node-pc ${extraCls||''}" transform="translate(${x},${y})"><rect class="scr" x="-26" y="-22" width="52" height="36" rx="5"/><rect class="s-ink" x="-5" y="14" width="10" height="8"/><rect class="s-ink" x="-16" y="21" width="32" height="5" rx="2"/><path class="x" d="M-10 -14 L10 6 M10 -14 L-10 6" stroke="var(--no)" stroke-width="5" stroke-linecap="round"/><text class="s-txt sm mid halo" y="42">${label}</text></g>`; }
+
+
+/* ===================== LESSONS ===================== */
+const TOPICS = [
+ { id:'net', title:'Computing systems and networks', ar:'أنظمة الحوسبة والشبكات', name:'Topic 1',
+   lessons:['binary','connections','speed-units','bandwidth','network-models','topology'] },
+ { id:'ai', title:'Modern AI', ar:'الذكاء الاصطناعي الحديث', name:'Topic 2',
+   lessons:['vision','language-ai','prompting','chatbot-limits'] }
+];
+
+const LESSONS = {
+ 'binary': {
+  topic:'net', icon:'💡', title:'Binary numbers', ar:'الأعداد الثنائية',
+  goal:'Change a binary number into a decimal number, and a decimal number into binary.',
+  words:[
+   {i:'🔌', t:'Binary', ar:'النظام الثنائي', m:'Computers use only two digits: 0 and 1. Think of a light: 0 = OFF, 1 = ON.', ex:'1011 is a binary number.'},
+   {i:'🔢', t:'Decimal', ar:'النظام العشري', m:'Our normal numbers. They use ten digits: 0 to 9.', ex:'11, 22 and 9 are decimal numbers.'},
+   {i:'⚪', t:'Bit', ar:'بت', m:'One binary digit: a single 0 or 1. It is the smallest piece of data.', ex:'1011 has 4 bits.'},
+   {i:'📏', t:'Place value', ar:'القيمة المكانية', m:'Each place in binary has a value. Start at 1 on the right, then double: 1, 2, 4, 8, 16…', ex:'5 bits have the places 16 8 4 2 1.'}
+  ],
+  facts:[
+   'Binary → decimal: write the place values above the bits, then add only the places that have a 1.',
+   'Decimal → binary: start at the biggest place. If it fits, write 1 and subtract it. If not, write 0. Move right.',
+   '4 bits: 8 4 2 1. 5 bits: 16 8 4 2 1.'
+  ],
+  sims:[{k:'binary', t:'Binary light switches', h:'Tap a light to turn it ON (1) or OFF (0). Watch the decimal number change. Then try a challenge.'}],
+  qs:['q1','q11','q19']
+ },
+ 'connections': {
+  topic:'net', icon:'🔗', title:'Wired and wireless connections', ar:'الاتصالات السلكية واللاسلكية',
+  goal:'Choose the right connection: Wi-Fi, Bluetooth, Ethernet or fiber-optic.',
+  words:[
+   {i:'〰️', t:'Wired', ar:'سلكي', m:'Data travels through a cable.', ex:'Ethernet and fiber-optic are wired.'},
+   {i:'📶', t:'Wireless', ar:'لاسلكي', m:'Data travels through the air, with radio waves. No cable is needed.', ex:'Wi-Fi and Bluetooth are wireless.'},
+   {i:'🛜', t:'Wi-Fi', ar:'واي فاي', m:'Wireless network for a home, school or office. It covers a whole building.', ex:'All the laptops in an office join the Wi-Fi.'},
+   {i:'🎧', t:'Bluetooth', ar:'بلوتوث', m:'Wireless connection for a very short distance, between two nearby devices.', ex:'Phone to headphones.'},
+   {i:'🟠', t:'Ethernet (copper) cable', ar:'كابل إيثرنت (نحاس)', m:'A copper cable. It sends data as electricity.', ex:'A cable from a computer to a switch.'},
+   {i:'✨', t:'Fiber-optic cable', ar:'كابل الألياف الضوئية', m:'A cable with very thin glass inside. It sends data as pulses of light. Very fast and good for long distances.', ex:'Cables between buildings.'},
+   {i:'⚡', t:'Interference', ar:'التداخل الكهرومغناطيسي', m:'Electrical “noise” from machines. It can damage signals in copper cables. Light in fiber is not affected.', ex:'Big motors in a factory.'}
+  ],
+  facts:[
+   '“Without cables” → wireless → for an office network, choose Wi-Fi.',
+   '“Pulses of light” → fiber-optic cable.',
+   '“Near machines” or “electrical interference” → fiber-optic cable, because light is not affected.'
+  ],
+  sims:[
+   {k:'wireless', t:'How far does wireless go?', h:'Switch between Wi-Fi and Bluetooth. Look at how much of the office each one covers.'},
+   {k:'cable', t:'Cable lab: electricity or light?', h:'Choose a cable. Then turn the machines ON and watch what happens to the data.'}
+  ],
+  qs:['q2','q4','q14']
+ },
+ 'speed-units': {
+  topic:'net', icon:'🚀', title:'Speed units: Mbps and Gbps', ar:'وحدات السرعة',
+  goal:'Understand what Mbps means, and change Gbps into Mbps before you compare.',
+  words:[
+   {i:'⚪', t:'Bit (small b)', ar:'بت', m:'One 0 or 1. Network speed is measured in bits.', ex:'Mb = megabits.'},
+   {i:'📦', t:'Byte (big B)', ar:'بايت', m:'8 bits together make 1 byte. Storage is usually measured in bytes.', ex:'MB = megabytes.'},
+   {i:'⏱️', t:'Mbps', ar:'ميغابت في الثانية', m:'Megabits per second: how many million bits can move each second. It is a speed.', ex:'100 Mbps = 100 million bits every second.'},
+   {i:'🏎️', t:'Gbps', ar:'غيغابت في الثانية', m:'Gigabits per second. A bigger unit: 1 Gbps = 1,000 Mbps.', ex:'2 Gbps = 2,000 Mbps.'}
+  ],
+  facts:[
+   'Read the unit in parts: M = mega, b = bits, ps = per second.',
+   'Mbps is about moving data, not storing data and not the number of devices.',
+   'Always change everything to the same unit (Mbps) before you compare or subtract.'
+  ],
+  sims:[
+   {k:'bytes', t:'Bits and bytes', h:'8 small bits make 1 byte. Tap the bits to change them.'},
+   {k:'speeds', t:'Speed race', h:'Some speeds are in Mbps and some are in Gbps. Which is the fastest? Guess first, then convert.'}
+  ],
+  qs:['q5','q21b','q29']
+ },
+ 'bandwidth': {
+  topic:'net', icon:'🚰', title:'Bandwidth and throughput', ar:'عرض النطاق ومعدل النقل الفعلي',
+  goal:'Tell the difference between the maximum speed (bandwidth) and the real speed (throughput).',
+  words:[
+   {i:'↕️', t:'Bandwidth', ar:'عرض النطاق (السعة)', m:'The MAXIMUM amount of data a connection can carry each second. Also called capacity.', ex:'Like how wide a water pipe is.'},
+   {i:'💧', t:'Throughput', ar:'معدل النقل الفعلي', m:'The ACTUAL amount of data that really moved each second. It is measured in a test.', ex:'Like the water that really flows in the pipe.'},
+   {i:'📉', t:'Why is throughput lower?', ar:'لماذا يكون أقل؟', m:'Many users at the same time, long distance, interference or old devices can slow the real speed.', ex:'Bandwidth 50 Mbps, throughput 20 Mbps.'}
+  ],
+  facts:[
+   'Bandwidth = maximum = capacity. Throughput = actual = measured.',
+   'Throughput is usually lower than bandwidth. It is never higher.',
+   '“Transferred data faster during the test” → look at throughput, not bandwidth.'
+  ],
+  sims:[{k:'pipe', t:'The data pipe', h:'Move the sliders. The pipe size is bandwidth. The water flowing inside is throughput.'}],
+  qs:['q10','q16','q21a']
+ },
+ 'network-models': {
+  topic:'net', icon:'🖧', title:'Client-server and peer-to-peer', ar:'نموذج العميل والخادم ونموذج النظير للنظير',
+  goal:'Choose the right network model and explain what happens when a server fails.',
+  words:[
+   {i:'🗄️', t:'Server', ar:'الخادم', m:'A central computer that gives a service to other computers, like files or printing.', ex:'A file server or a print server.'},
+   {i:'💻', t:'Client', ar:'العميل', m:'A computer that asks (requests) a service from the server.', ex:'An employee’s laptop.'},
+   {i:'🏢', t:'Client-server', ar:'العميل والخادم', m:'Clients send requests to one central server. The server manages the service.', ex:'If the server fails, that service stops for everyone.'},
+   {i:'🤝', t:'Peer-to-peer (P2P)', ar:'النظير للنظير', m:'All computers are equal (peers). They share files directly with each other. No central server.', ex:'Sharing a folder from your own computer.'}
+  ],
+  facts:[
+   '“Central computer”, “request a service”, “managed centrally” → client-server.',
+   '“Directly from their own computers”, “without a server” → peer-to-peer.',
+   'Server fails → computers still turn on and log in, but the shared service (files, printing) stops.'
+  ],
+  sims:[{k:'models', t:'Network model simulator', h:'Choose a model. Send requests and see how data moves. Then make the server fail.'}],
+  qs:['q6','q17','q20']
+ },
+ 'topology': {
+  topic:'net', icon:'⭐', title:'Topology and the switch', ar:'هيكلية الشبكة والمحوّل',
+  goal:'Recognise star, bus, ring and mesh, and explain what a switch does.',
+  words:[
+   {i:'🗺️', t:'Topology', ar:'هيكلية الشبكة', m:'The shape or layout of how devices are connected.', ex:'Star, bus, ring, mesh.'},
+   {i:'⭐', t:'Star', ar:'النجمة', m:'Each computer has its own cable to a central switch. One broken cable affects only one computer.', ex:'Most offices use star.'},
+   {i:'➖', t:'Bus', ar:'الناقل', m:'All computers share one main cable. If the main cable breaks, the network stops.', ex:'Old, simple networks.'},
+   {i:'⭕', t:'Ring', ar:'الحلقة', m:'Computers are connected in a circle. One break can stop data going around.', ex:'Data travels around the circle.'},
+   {i:'🕸️', t:'Mesh', ar:'الشبكية', m:'Devices connect to many other devices. There are many paths for the data.', ex:'One broken cable is not a big problem.'},
+   {i:'🔀', t:'Switch', ar:'المحوّل (سويتش)', m:'Connects devices in a local network. It forwards data only to the right device.', ex:'Like a post office for the office network.'}
+  ],
+  facts:[
+   '“Each computer has its own cable to a central switch” → star.',
+   'A switch connects local devices and forwards data. It does not store files or print.'
+  ],
+  sims:[{k:'topology', t:'Cut a cable!', h:'Choose a topology. Tap any cable to cut it. Red computers lost their connection.'}],
+  qs:['q8','q23']
+ },
+ 'vision': {
+  topic:'ai', icon:'👁️', title:'Computer vision', ar:'الرؤية الحاسوبية',
+  goal:'Choose the right computer vision technique for a task.',
+  words:[
+   {i:'👁️', t:'Computer vision', ar:'الرؤية الحاسوبية', m:'AI that “sees” and understands images and videos.', ex:'Checking camera images for damaged boxes.'},
+   {i:'🏷️', t:'Image classification', ar:'تصنيف الصور', m:'Gives ONE label to the whole image, from fixed (predefined) categories.', ex:'“damaged” or “not damaged”.'},
+   {i:'🔲', t:'Object detection', ar:'اكتشاف الأجسام', m:'Finds EACH object and draws a box around it. It answers: where is it?', ex:'A box around every helmet.'},
+   {i:'🎨', t:'Image segmentation', ar:'تجزئة الصورة', m:'Colours the exact pixels of each object. It separates the object from the background.', ex:'How much of the image is the product?'},
+   {i:'🔤', t:'OCR', ar:'التعرّف الضوئي على الحروف', m:'Optical Character Recognition. Reads printed text in an image and turns it into real text.', ex:'Reading tracking numbers.'},
+   {i:'🧩', t:'Similarity search', ar:'البحث عن الصور المتشابهة', m:'Finds other images that look similar.', ex:'Find photos of boxes like this one.'}
+  ],
+  facts:[
+   'One label for the whole picture → classification.',
+   '“Every object” + “where” → object detection (boxes).',
+   '“Pixels” + “separate from the background” → segmentation.',
+   '“Printed text / numbers” → OCR.',
+   'A camera only takes the picture. Computer vision understands it.'
+  ],
+  sims:[{k:'vision', t:'One picture, five AI techniques', h:'Tap a technique. See what the AI gives you for the same warehouse image.'}],
+  qs:['q7','q9','q18','q22','q27']
+ },
+ 'language-ai': {
+  topic:'ai', icon:'🌐', title:'Language AI and generative AI', ar:'ذكاء اللغة والذكاء التوليدي',
+  goal:'Match the input to the right AI tool, and know when AI is generative.',
+  words:[
+   {i:'🌐', t:'Machine translation', ar:'الترجمة الآلية', m:'Changes WRITTEN text from one language into another language.', ex:'Arabic message → English.'},
+   {i:'🎤', t:'Speech recognition', ar:'التعرّف على الكلام', m:'Changes SPOKEN words (voice) into text.', ex:'Voice message → text.'},
+   {i:'🔤', t:'OCR', ar:'التعرّف الضوئي على الحروف', m:'Reads text inside a PHOTO and turns it into text. It does not translate.', ex:'Photo of a sign → text.'},
+   {i:'✍️', t:'Generative AI', ar:'الذكاء الاصطناعي التوليدي', m:'AI that CREATES new content: text, images, music.', ex:'Writing a new product description.'},
+   {i:'🗂️', t:'Not generative', ar:'غير توليدي', m:'AI that labels, sorts or finds things that already exist. It does not create new content.', ex:'Putting descriptions into categories.'}
+  ],
+  facts:[
+   'First ask: what is the INPUT? Written text, voice, or a photo?',
+   'Then ask: what OUTPUT do we need? Another language, text, or something new?',
+   'Generative = generates = creates something new.'
+  ],
+  sims:[
+   {k:'lang', t:'Which tool do I need?', h:'Choose the type of input. Watch which AI tool changes it.'},
+   {k:'gensort', t:'Creates or labels?', h:'Decide: does each AI tool create something new, or label and find things that already exist?'}
+  ],
+  qs:['q12','q13']
+ },
+ 'prompting': {
+  topic:'ai', icon:'💬', title:'Writing good prompts', ar:'كتابة الأوامر الجيدة',
+  goal:'Write clear prompts and choose the best prompt for a task.',
+  words:[
+   {i:'💬', t:'Prompt', ar:'الأمر (المُوجِّه)', m:'The instruction you give to a chatbot.', ex:'“Write five numbered steps…”'},
+   {i:'🎭', t:'Role', ar:'الدور', m:'Who the chatbot should act as.', ex:'“Act as a polite hotel agent.”'},
+   {i:'🎯', t:'Task', ar:'المهمة', m:'Exactly what you want it to do. Clear and on topic.', ex:'“Respond to the guest’s delayed order.”'},
+   {i:'📎', t:'Context', ar:'السياق', m:'The real information it needs: the latest update, the file, the facts.', ex:'Paste the update or upload the PDF.'},
+   {i:'📋', t:'Format', ar:'الشكل', m:'How the answer should look: table, bullet points, numbered steps.', ex:'“in three bullet points”'},
+   {i:'🧪', t:'Few-shot prompting', ar:'التلقين بأمثلة قليلة', m:'You give a few examples first. The chatbot copies their style for a new answer.', ex:'“Here are two examples… write a new one.”'}
+  ],
+  facts:[
+   'Good prompt = Role + Task + Context + Format.',
+   'A chatbot cannot summarise a file it has not seen. Upload or paste the real content.',
+   'In long chats, the chatbot may forget early instructions. Repeat the format and add the latest information.',
+   'Zero-shot = no examples. Few-shot = a few examples.'
+  ],
+  sims:[
+   {k:'prompt', t:'Prompt builder', h:'A school needs a message for parents about a trip. Choose parts for the prompt. Watch the answer get better.'},
+   {k:'fewshot', t:'Zero-shot or few-shot?', h:'A café wants order messages in its own style. Compare the two prompts.'}
+  ],
+  qs:['q3','q15','q25','q26','q30']
+ },
+ 'chatbot-limits': {
+  topic:'ai', icon:'⚠️', title:'Chatbot limits', ar:'حدود روبوتات المحادثة',
+  goal:'Recognise hallucination and memory limits, and know why people must check AI answers.',
+  words:[
+   {i:'🌀', t:'Hallucination', ar:'الهلوسة', m:'The chatbot makes up false information and says it confidently, like it is a fact.', ex:'It cites an article that does not exist.'},
+   {i:'🧠', t:'Memory limitation', ar:'محدودية الذاكرة', m:'In a long chat, the chatbot can forget instructions from the beginning.', ex:'You asked for a table, later it writes a paragraph.'},
+   {i:'🧑‍💼', t:'Human checking', ar:'المراجعة البشرية', m:'A person checks the AI answer against real facts or company policy before it is used.', ex:'An employee checks the warranty rules.'}
+  ],
+  facts:[
+   'Confident does not mean correct.',
+   'A longer or friendlier answer can still be wrong.',
+   'Always check important AI answers with a real source.'
+  ],
+  sims:[
+   {k:'halluc', t:'Check the source', h:'The chatbot gives a research article. Is it real? Search for it.'},
+   {k:'memory', t:'The chatbot’s memory window', h:'Add more messages. Watch what happens to the first instruction.'},
+   {k:'human', t:'Send it, or check it first?', h:'The AI wrote a reply about a warranty. Choose what to do.'}
+  ],
+  qs:['q24','q28']
+ }
+};
+
+/* ===================== QUESTIONS =====================
+   opts: [text, correct (1/0), why-not (for wrong options)]
+*/
+const Q = {
+ q1:{src:'Q1', stem:'Machines deal with binary numbers. What is the [[decimal value]] of <code class="bits">1011</code>?',
+  opts:[['11',1],['3',0,'3 is 0011. You only added the last two places (2 + 1). The first bit is also 1, so the 8 is ON too.'],['10',0,'10 is 1010. Look at the last bit of 1011: it is 1, so you must add 1.'],['7',0,'7 is 0111. The first bit of 1011 is 1, so the 8 is ON.']],
+  hint:'Write 8 4 2 1 above the bits 1 0 1 1. Add only the places with a 1.',
+  explain:'BITS:1011 Add the ON places: 8 + 2 + 1 = <b>11</b>.'},
+ q11:{src:'Q11', stem:'A smart warehouse uses a [[five-bit]] binary code to record the status of a conveyor belt. The control system receives the [[decimal status value 22]]. Which binary code should the system store?',
+  opts:[['<code class="bits">10110</code>',1],['<code class="bits">11010</code>',0,'11010 = 16 + 8 + 2 = 26. That is too big.'],['<code class="bits">10101</code>',0,'10101 = 16 + 4 + 1 = 21. Very close, but not 22.'],['<code class="bits">10010</code>',0,'10010 = 16 + 2 = 18. It is missing the 4.']],
+  hint:'5 bits have the places 16 8 4 2 1. Start with 16: 22 − 16 = 6. Which small places make 6?',
+  explain:'BITS:10110 16 + 4 + 2 = <b>22</b>.'},
+ q19:{src:'Q19', stem:'A warehouse sensor stores its status as a [[four-bit]] binary number. The status value is [[9 in decimal]]. Which binary code represents this value?',
+  opts:[['<code class="bits">1001</code>',1],['<code class="bits">0110</code>',0,'0110 = 4 + 2 = 6.'],['<code class="bits">1010</code>',0,'1010 = 8 + 2 = 10. One too many.'],['<code class="bits">1100</code>',0,'1100 = 8 + 4 = 12.']],
+  hint:'4 bits have the places 8 4 2 1. 9 = 8 + ? Turn ON only those places.',
+  explain:'BITS:1001 8 + 1 = <b>9</b>.'},
+
+ q2:{src:'Q2', stem:'An office needs to connect laptops [[without cables]]. Which connection should it use?',
+  opts:[['Wi-Fi',1],['Fiber Optic',0,'Fiber-optic is a cable. The office wants no cables.'],['Bluetooth',0,'Bluetooth is wireless, but only for a very short distance between two nearby devices, like headphones. It is not for an office network.'],['Ethernet',0,'Ethernet uses a cable. The office wants no cables.']],
+  hint:'“Without cables” means wireless. Which wireless connection covers a whole office?',
+  explain:'Wi-Fi is wireless and covers the whole office, so all laptops can join the network.'},
+ q4:{src:'Q4', stem:'A company needs to connect two network devices using a cable. The connection must carry data as [[pulses of light]]. Which cable should the technician select?',
+  opts:[['Fiber-optic cable',1],['Copper Ethernet cable',0,'Copper carries data as electricity, not light.'],['Coaxial cable',0,'Coaxial cable (like a TV cable) has copper inside. It uses electricity, not light.'],['Twisted-pair telephone cable',0,'Telephone cable is copper wire. It uses electricity, not light.']],
+  hint:'Look for the word “light”. Which cable has thin glass inside?',
+  explain:'Fiber-optic cables have thin glass threads. They send data as pulses of light.'},
+ q14:{src:'Q14', stem:'A factory needs to connect two network devices across a [[long building]]. The cable will pass near machines that cause [[electrical interference]]. Which connection is the most suitable?',
+  opts:[['Fiber-optic cable, because it carries data using light and is not affected by electromagnetic interference.',1],['Copper Ethernet cable, because electrical interference improves its signal.',0,'Interference never improves a signal. It adds noise and damages copper signals.'],['Copper audio cable, because it is designed for long-distance network data.',0,'Audio cables carry sound, not network data.'],['USB charging cable, because it connects any two network devices over long distances.',0,'USB charging cables are short and made for charging, not for long network connections.']],
+  hint:'Machines make electrical noise. Choose the cable that uses light instead of electricity.',
+  explain:'Light inside fiber is not affected by electrical noise, and fiber works well over long distances.'},
+
+ q5:{src:'Q5', stem:'An internet package advertises a speed of [[100 Mbps]]. What does the unit describe?',
+  opts:[['The number of megabits that can be transmitted per second.',1],['The number of megabytes stored by the router each second.',0,'Small b = bits, not bytes. And Mbps is about moving data, not storing it.'],['The number of devices that can connect to the network.',0,'Mbps is a speed. It does not count devices.'],['The amount of storage available on each connected device.',0,'Storage is measured in GB or TB, without “per second”.']],
+  hint:'Break the unit into parts: M = mega, b = bits, ps = per second.',
+  explain:'Mbps = megabits per second: how many million bits can be sent every second.'},
+ q21b:{src:'Q21 (second one)', stem:'A small business compares two internet packages. One advertises [[1 Gbps]] and the other advertises [[800 Mbps]]. Assume 1 Gbps = 1,000 Mbps. [[How much greater]] is the advertised bandwidth of the first package?',
+  opts:[['200 Mbps',1],['100 Mbps',0,'Check the subtraction again: 1,000 − 800 = ?'],['800 Mbps',0,'800 Mbps is the speed of the second package, not the difference.'],['1,800 Mbps',0,'You added the numbers. “How much greater” means subtract.']],
+  hint:'First change 1 Gbps into 1,000 Mbps. “How much greater” means subtract: 1,000 − 800.',
+  explain:'1 Gbps = 1,000 Mbps. 1,000 − 800 = <b>200 Mbps</b>.'},
+ q29:{src:'Q29', stem:'A technician compares the advertised network connection speeds of four devices. Assume [[1 Gbps = 1,000 Mbps]]. Which device has the [[highest]] connection speed?',
+  extra:'<table><tr><th>Device</th><th>Connection speed</th></tr><tr><td>iPhone</td><td>500 Mbps</td></tr><tr><td>iPad</td><td>1 Gbps</td></tr><tr><td>Chromebook</td><td>800 Mbps</td></tr><tr><td>Laptop</td><td>2 Gbps</td></tr></table>',
+  opts:[['Laptop',1],['iPhone',0,'500 Mbps is the smallest speed in the table.'],['iPad',0,'1 Gbps = 1,000 Mbps. That is big, but another device is bigger.'],['Chromebook',0,'800 looks like a big number, but 800 Mbps is less than 1 Gbps (1,000 Mbps).']],
+  hint:'Change every speed into Mbps: 1 Gbps = 1,000 Mbps and 2 Gbps = 2,000 Mbps. Then compare.',
+  explain:'In Mbps: iPhone 500, Chromebook 800, iPad 1,000, Laptop <b>2,000</b>.'},
+
+ q10:{src:'Q10', stem:'A company compares two connections:',
+  extra:'<ul class="links"><li><b>Link A:</b> bandwidth 100 Mbps; measured throughput 35 Mbps.</li><li><b>Link B:</b> bandwidth 60 Mbps; measured throughput 50 Mbps.</li></ul><div class="q-stem">Which conclusion is supported by these measurements?</div>',
+  opts:[['Link A has the higher capacity, while Link B transferred data faster during the test.',1],['Link A has both the higher capacity and the higher measured transfer rate.',0,'Look at throughput: Link A = 35, Link B = 50. Which one is higher?'],['Link B has the higher capacity, while Link A transferred data faster during the test.',0,'Capacity = bandwidth: Link A = 100, Link B = 60. Which one is higher?'],['Both links transferred data at their maximum stated capacity.',0,'35 is not 100, and 50 is not 60. Neither link reached its maximum.']],
+  hint:'Capacity = bandwidth (the maximum). “Transferred faster in the test” = throughput (the real result). Compare each one on its own.',
+  explain:'Bandwidth: A 100 &gt; B 60, so A has more capacity. Throughput: B 50 &gt; A 35, so B was faster in the test.'},
+ q16:{src:'Q16', stem:'A branch office has 50 Mbps bandwidth but only 20 Mbps [[actual data transfer]]. Which value is [[throughput]]?',
+  opts:[['20 Mbps',1],['50 Mbps',0,'50 Mbps is the bandwidth: the maximum, not the real transfer.'],['70 Mbps',0,'Do not add the numbers. Throughput is one of the values you were given.'],['30 Mbps',0,'Do not subtract. 30 is just the unused part of the bandwidth.']],
+  hint:'Throughput = what REALLY happened. Find the word “actual”.',
+  explain:'Throughput is the actual data transfer: <b>20 Mbps</b>. Bandwidth (50) is the maximum.'},
+ q21a:{src:'Q21 (first one)', stem:'A technician reads a network report: [[bandwidth = 100 Mbps]] and [[throughput = 35 Mbps]]. Which conclusion is correct?',
+  opts:[['The measured transfer rate is lower than the connection capacity.',1],['The bandwidth is 35 Mbps.',0,'The report says the bandwidth is 100 Mbps.'],['The throughput is 100 Mbps.',0,'The report says the throughput is 35 Mbps.'],['The network has no connection.',0,'35 Mbps of data is moving, so the network is working.']],
+  hint:'Throughput (35) is the real speed. Bandwidth (100) is the maximum. Is 35 lower or higher than 100?',
+  explain:'The real speed (35 Mbps) is lower than the maximum (100 Mbps). This is normal.'},
+
+ q6:{src:'Q6', stem:'A small office wants employees to send print jobs to a [[central computer that manages a shared printer]]. The employee computers [[request]] the printing service when needed. Which network model best provides the solution of this arrangement?',
+  opts:[['Client-server, because computers request a service managed centrally.',1],['Peer-to-peer, because every computer manages the same central service.',0,'In peer-to-peer there is no central service. All computers are equal.'],['Peer-to-peer, because no device provides a service to another device.',0,'Here one central computer does give a service (printing) to the others.'],['Client-server, because every computer must have its own printer.',0,'Client-server is correct, but the reason is wrong. They share ONE printer.']],
+  hint:'One central computer gives a service. The other computers ask for it. Who is the server? Who are the clients?',
+  explain:'The central computer is the server. The employee computers are clients that request the service.'},
+ q17:{src:'Q17', stem:'A company stores shared files on a [[central file server]]. Employees can still log in to their computers, but they [[cannot open the shared files]] after the file server fails. What is the best explanation?',
+  opts:[['The shared-file service depends on the central server.',1],['All employee computers must use the same network cable.',0,'The problem is the server, not a cable. Employees can still log in.'],['Each computer independently stores the only copy of every shared file.',0,'If each computer had its own copy, the files would still open after the server failed.'],['A file server is required only to connect computers to Wi-Fi.',0,'A file server stores and shares files. It does not make Wi-Fi.']],
+  hint:'Everything still works except the shared files. Where were the shared files kept?',
+  explain:'The shared files live on the server. When the server fails, the file service stops.'},
+ q20:{src:'Q20', stem:'An office has ten computers. Employees want to share selected files [[directly from their own computers]] [[without]] using a dedicated central file server. Which network model best fits the requirement?',
+  opts:[['Peer-to-peer, because computers can share resources directly.',1],['Client-server, because every file must be managed by a central server.',0,'The question says WITHOUT a central file server.'],['Client-server, because a switch is always a file server.',0,'A switch connects devices. It is not a file server.'],['Peer-to-peer, because computers cannot provide resources to one another.',0,'Peer-to-peer is correct, but the reason is wrong. Peers CAN share with each other.']],
+  hint:'“Directly” and “no central server” → every computer is equal, a peer.',
+  explain:'In peer-to-peer, every computer can share its own files directly with the others.'},
+
+ q8:{src:'Q8', stem:'A technician is designing a network in which [[each office computer has its own cable to a central switch]]. A cable failure should affect [[only the computer connected by that cable]]. Which topology meets the requirement?',
+  opts:[['Star',1],['Bus',0,'In a bus, all computers share one main cable. If it breaks, many computers stop.'],['Ring',0,'In a ring, computers form a circle. One break can stop the data going around.'],['Mesh',0,'In mesh, devices connect to many other devices, not to one central switch.']],
+  hint:'Picture a star: one centre point with a line to each computer.',
+  explain:'Star: every computer has its own cable to the central switch, so one broken cable affects only one computer.'},
+ q23:{src:'Q23', stem:'An office uses a [[switch]] to connect five desktop computers on the same local network. Which statement best describes the switch’s [[main role]]?',
+  opts:[['It connects local devices and forwards data to the appropriate connected device.',1],['It stores all the files that employees create on their computers.',0,'Files are stored on computers or servers, not on a switch.'],['It converts every electrical signal into a printed document.',0,'Printers print documents. A switch does not.'],['It generates new images for the connected computers.',0,'A switch does not create images. That is generative AI.']],
+  hint:'A switch is like a post office for the local network. It receives data and sends it to the right place.',
+  explain:'A switch connects the local devices and sends each piece of data only to the right device.'},
+
+ q7:{src:'Q7', stem:'A warehouse AI system examines parcel images and assigns each parcel [[one of two labels]]: <b>damaged</b> or <b>not damaged</b>. The system [[does not create new images]]. Which description best fits the use case?',
+  opts:[['Classifying images into predefined categories.',1],['Generating a new parcel image from a text description.',0,'The question says the system does NOT create new images.'],['Translating a parcel label into another language.',0,'There is no translation. The system only looks at images.'],['Creating a new category name for each parcel.',0,'The two labels are already fixed (predefined). Nothing new is created.']],
+  hint:'Two fixed labels, one label for each image. That is putting images into groups.',
+  explain:'Image classification puts each image into one of the fixed categories: damaged or not damaged.'},
+ q9:{src:'Q9', stem:'A warehouse needs an AI solution that can [[review camera images automatically]] and identify packages with visible damage. Which AI capability is most directly needed?',
+  opts:[['A computer vision system that analyses images of packages.',1],['HD cameras to capture the package images.',0,'Cameras only take the pictures. They do not understand them. The question asks for an AI capability.'],['A speech system that converts spoken messages into images.',0,'Speech is about voice. This task is about images.'],['A chatbot that answers questions about packages.',0,'A chatbot works with text. It does not inspect images.']],
+  hint:'Which AI can “see” and understand pictures?',
+  explain:'Computer vision is the AI that analyses images, so it can find damaged packages.'},
+ q18:{src:'Q18', stem:'A factory uses AI to inspect camera images of its production line. The system must identify [[every safety helmet]] in an image and show [[where each one is located]]. One image may contain several helmets. Which computer vision solution best meets the requirement?',
+  opts:[['Object detection: Identify each helmet and draw a bounding box around it.',1],['Image classification: Assign one label to the entire image indicating whether a helmet is present.',0,'Classification gives only one label for the whole image. It cannot show WHERE each helmet is.'],['Optical character recognition: Read any text printed on the helmets.',0,'OCR reads text. The task is to find helmets.'],['Similarity search: Find existing images that look similar to the camera image.',0,'Similarity search finds other pictures. It does not show where each helmet is.']],
+  hint:'Key words: “every helmet” and “where”. Which technique draws a box around each object?',
+  explain:'Object detection finds each object and draws a bounding box, so you see every helmet and its location.'},
+ q22:{src:'Q22', stem:'A warehouse wants to calculate how much of each camera image is covered by a product. The system must identify the product’s [[pixels]] [[separately from the background]]. Which computer vision technique is most suitable?',
+  opts:[['Image segmentation, to separate the product from the background.',1],['Image classification, to assign one label to the whole image.',0,'One label for the whole image cannot measure how much area the product covers.'],['Optical character recognition, to read printed text.',0,'There is no text to read in this task.'],['Machine translation, to change labels between languages.',0,'Translation is for languages, not for pixels.']],
+  hint:'“Pixels” + “separate from the background” means colouring the exact shape of the product.',
+  explain:'Segmentation marks the exact pixels of the product, so you can measure how much of the image it covers.'},
+ q27:{src:'Q27', stem:'A warehouse camera captures images of package labels. The system must turn the [[printed tracking numbers]] into [[text]] that can be searched in a database. Which technique is most suitable?',
+  opts:[['Optical character recognition, to read the printed characters.',1],['Object detection, to draw a box around the package.',0,'A box around the package does not read the numbers.'],['Image segmentation, to separate the package from its background.',0,'Separating the package does not turn the numbers into text.'],['Similarity search, to find packages with a similar appearance.',0,'Finding similar-looking packages does not read the numbers.']],
+  hint:'Printed characters inside a picture → turn them into text. What does OCR stand for?',
+  explain:'OCR (Optical Character Recognition) reads printed characters and turns them into searchable text.'},
+
+ q12:{src:'Q12', stem:'A travel company receives a [[written Arabic message]] from a customer. An employee who [[reads English]] needs to understand its meaning. Which application is most suitable?',
+  opts:[['Machine translation, to change the written message into English.',1],['Speech recognition, to convert spoken Arabic into English text.',0,'The message is written, not spoken.'],['OCR, to identify text in a photograph.',0,'OCR reads text from a photo, but it does not change the language. And there is no photo here.'],['Image segmentation, to separate objects in a picture.',0,'Segmentation works on pictures. Here we have a written message.']],
+  hint:'Input: written Arabic. Output needed: English. Which tool changes one language into another?',
+  explain:'Machine translation changes written text from Arabic into English.'},
+ q13:{src:'Q13', stem:'An online retailer is testing four AI tools to improve its product listings. The retailer wants a tool that can [[create a new description]] from a list of product features. Which tool uses [[generative AI]] to meet this requirement?',
+  opts:[['A tool that drafts a new description using the supplied product features.',1],['A tool that identifies product features mentioned in existing descriptions.',0,'This finds things in text that already exists. It does not create anything new.'],['A tool that assigns each existing description to a product category.',0,'This is classification (sorting), not generating.'],['A tool that searches the catalogue for descriptions containing similar words.',0,'Searching finds existing text. It does not create new text.']],
+  hint:'Generative AI = generates = creates something NEW. Which option creates?',
+  explain:'Drafting a new description creates new content, so it is generative AI.'},
+
+ q3:{src:'Q3', stem:'A customer-service employee uses a chatbot to prepare a summary of a customer complaint. [[Early in a long conversation]], the employee asked the chatbot to use a table with the columns <b>Issue, Action and Status</b>. The chatbot later produces a paragraph and [[leaves out the customer’s latest update]]. Which next prompt is most likely to produce the required summary?',
+  opts:[['“Using the latest customer update below, summarise the complaint in a table with the columns Issue, Action and Status: [insert update].”',1],['“Rewrite your last answer as a table. Use only the information already included in that answer.”',0,'The table is good, but the latest customer update is still missing.'],['“Continue the conversation and use the format I requested at the beginning.”',0,'In long chats, the chatbot may forget the beginning. Say the format again clearly. Also the update is still missing.'],['“Write a longer paragraph about the complaint and add a heading for the customer’s update.”',0,'A paragraph is the wrong format. The employee needs a table.']],
+  hint:'Two problems: the wrong format AND missing information. The best prompt fixes BOTH.',
+  explain:'This prompt gives the missing update AND repeats the table format with the exact columns.'},
+ q15:{src:'Q15', stem:'A logistics employee wants a short guide for [[new staff]] explaining how to [[report delayed deliveries]]. The guide should contain [[five numbered steps]]. Which prompt is most likely to produce the required response?',
+  opts:[['“Write five numbered steps for new staff explaining how to report a delayed delivery.”',1],['“Describe delivery services using any format in steps.”',0,'“Any format” and “delivery services” are not clear. It does not ask for five numbered steps about delays.'],['“List five types of delivery vehicles for experienced drivers.”',0,'Wrong topic (vehicles) and wrong audience (experienced drivers).'],['“Explain the history of logistics in five detailed paragraphs.”',0,'Wrong topic (history) and wrong format (paragraphs).']],
+  hint:'Check three things: the right task (report delays), the right people (new staff), the right format (5 numbered steps).',
+  explain:'It has the right task, the right audience and the right format.'},
+ q25:{src:'Q25', stem:'A hotel employee wants a chatbot to prepare a [[polite response]] to a guest who reported a [[delayed room service order]]. The response should contain [[three bullet points]]. Which prompt best meets the requirement?',
+  opts:[['“Act as a polite hotel customer-service agent. Respond to the guest’s delayed order in three bullet points.”',1],['“Describe how hotels use technology in customer service in three bullet points.”',0,'This is about hotel technology, not a reply to the guest.'],['“Write a detailed report about room service without using bullet points.”',0,'A report is not a reply, and it has no bullet points.'],['“Translate the guest’s complaint into another language without responding rudely to the guest.”',0,'Translating is a different task. It does not write a reply.']],
+  hint:'A good prompt = Role + Task + Format. Which prompt has all three?',
+  explain:'Role: polite hotel agent. Task: respond to the delayed order. Format: three bullet points.'},
+ q26:{src:'Q26', stem:'A company has a [[20-page PDF report]] and needs a short summary of its main findings. An employee has access to ChatGPT with [[file uploads enabled]]. Which approach is most suitable?',
+  opts:[['Upload the PDF to ChatGPT and ask it to summarise the main findings.',1],['Give ChatGPT only the report’s title and ask it to invent the findings.',0,'“Invent” means make up facts. That creates false information.'],['Prompt ChatGPT to summarise the report without providing its contents.',0,'The chatbot cannot summarise a report it has never seen.'],['Prompt ChatGPT to describe what a PDF file is.',0,'This explains PDF files, not the report.']],
+  hint:'The chatbot needs to read the real report. How can you give it the report?',
+  explain:'Uploading the PDF gives the chatbot the real content, so the summary is based on the actual report.'},
+ q30:{src:'Q30', stem:'A delivery company wants a chatbot to write a new delivery update [[in the same style as its previous messages]]. Which prompt best uses [[few-shot]] prompting?',
+  opts:[['“Here are two examples of our delivery updates. Use them as a guide to write a new update for an order arriving tomorrow.”',1],['“Write a delivery update in any style you choose.”',0,'No examples are given. This is zero-shot, and the style may not match.'],['“Copy the first delivery update exactly and send it again.”',0,'Copying is not writing a new update.'],['“Write one sentence explaining what a delivery update is.”',0,'This asks for a definition, not a new update.']],
+  hint:'“Few-shot” = give the AI a few examples (shots) first.',
+  explain:'Two examples + a request for a new update = few-shot prompting.'},
+
+ q24:{src:'Q24', stem:'A student asks a chatbot for information about an AI project. The chatbot gives a [[confident answer]] and cites a research article, but the student cannot find the article because it [[does not exist]]. Which chatbot limitation does this example illustrate?',
+  opts:[['Hallucination: The chatbot generated false information and presented it as factual.',1],['Memory limitation: The chatbot forgot an instruction from earlier in the conversation.',0,'The chatbot did not forget an instruction. It made up an article.'],['Machine translation: The chatbot changed information from one language to another.',0,'No language was changed here.'],['Image recognition: The chatbot incorrectly identified an object in a picture.',0,'There is no picture in this example.']],
+  hint:'The article is not real. The chatbot made it up but sounded sure. What is that called?',
+  explain:'Hallucination = the AI makes up false information and presents it as a fact.'},
+ q28:{src:'Q28', stem:'A customer-service team tests Google Gemini to help draft responses about product warranties. During testing, Gemini sometimes gives [[confident answers that do not match the company’s warranty policy]]. Which approach best addresses this limitation?',
+  opts:[['Have an employee check each warranty claim against the current company policy.',1],['Let Gemini send every response automatically if it sounds confident.',0,'Sounding confident does not mean being correct.'],['Ask Gemini to make every response longer before sending it.',0,'A longer answer can still be wrong.'],['Ask Gemini to use a friendlier tone instead of checking the claim.',0,'A friendly tone does not fix wrong information.']],
+  hint:'AI can be wrong. Who should compare the answer with the real company policy?',
+  explain:'Human checking catches wrong answers before customers see them.'}
+};
+
+function bitsTable(str){
+  const n=str.length; return '<div class="bt">'+str.split('').map((b,i)=>`<span class="${b==='1'?'on':''}"><small>${2**(n-1-i)}</small>${b}</span>`).join('')+'</div><br>';
+}
+function explainHTML(q){ return q.explain.replace(/^BITS:([01]+)\s*/, (m,b)=>bitsTable(b)); }
+
+/* ===================== CSC40 MOCK EXAM ===================== */
+const EXAM={code:'CSC40', title:'CSC40 Milestone 3 – Mock Exam', subject:'Computing Systems & Networks and Modern AI', count:Object.keys(Q).length, key:'csc40-mock-exam-all-v1', pass:60};
+const PW_HASH='5d9199be';
+function fnv(s){ let x=0x811c9dc5; for(const c of s){ x^=c.codePointAt(0); x=Math.imul(x,0x01000193)>>>0; } return x.toString(16).padStart(8,'0'); }
+const pwOk=p=>fnv('x9|'+fnv('csc40-exam|'+p)+'|'+p)===PW_HASH;
+
+let S=null;                 // exam state (saved to localStorage)
+let unlocked=false;         // true after the teacher password lets the page close
+let lockOpen=false;
+const $a=()=>$('#app');
+const save=()=>{ try{ localStorage.setItem(EXAM.key, JSON.stringify(S)); }catch(e){} };
+const load=()=>{ try{ return JSON.parse(localStorage.getItem(EXAM.key)||'null'); }catch(e){ return null; } };
+const clearState=()=>{ try{ localStorage.removeItem(EXAM.key); }catch(e){} S=null; };
+const stemText=q=>q.stem.replace(/\[\[(.+?)\]\]/g,'$1');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fmtT=ms=>{ const s=Math.max(0,Math.floor(ms/1000)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; };
+const active=()=>S&&S.started&&!S.submitted;
+
+/* ---------- Full screen ---------- */
+const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function enterFS(){ const d=document.documentElement; try{ const r=(d.requestFullscreen||d.webkitRequestFullscreen||function(){}).call(d); if(r&&r.catch) r.catch(()=>flagNoFS()); }catch(e){ flagNoFS(); } }
+function exitFS(){ try{ if(fsEl()) (document.exitFullscreen||document.webkitExitFullscreen).call(document); }catch(e){} }
+function flagNoFS(){ const b=$('#fsbanner'); if(b) b.hidden=false; }
+function warn(kind){ if(!active()||unlocked) return; S.warnings.push({kind, t:Date.now()}); save(); showLock(kind); }
+document.addEventListener('fullscreenchange',()=>{ if(!fsEl()) warn('Left full screen'); else { const b=$('#fsbanner'); if(b) b.hidden=true; } });
+document.addEventListener('webkitfullscreenchange',()=>{ if(!fsEl()) warn('Left full screen'); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) warn('Switched tab or window'); });
+window.addEventListener('blur',()=>{ if(active()&&!unlocked&&!lockOpen&&!document.hidden) warn('Clicked outside the exam'); });
+window.addEventListener('beforeunload',e=>{ if(active()&&!unlocked){ e.preventDefault(); e.returnValue=''; return ''; } });
+['contextmenu','copy','cut','paste','dragstart','selectstart'].forEach(ev=>document.addEventListener(ev,e=>{ if(S&&S.started&&!unlocked&&!e.target.closest('input')) e.preventDefault(); }));
+document.addEventListener('keydown',e=>{
+  if(!(S&&S.started)||unlocked) return;
+  const k=e.key.toLowerCase(), c=e.ctrlKey||e.metaKey;
+  const block = k==='f5'||k==='f12'||(c&&['r','p','s','u','c','x','a','f','o','w','n','t'].includes(k)&&!e.target.closest('input'))||(c&&e.shiftKey&&['i','j','c','k'].includes(k))||(e.altKey&&['arrowleft','arrowright','home'].includes(k));
+  if(block){ e.preventDefault(); e.stopPropagation(); }
+},true);
+
+/* ---------- Password modal ---------- */
+function askPassword(title, onOk, onCancel){
+  const m=document.createElement('div'); m.className='pwmodal'; m.innerHTML=`<div class="pwbox" role="dialog" aria-modal="true" aria-label="${esc(title)}"><h2>🔒 ${title}</h2><p>Teacher password required.</p><input type="password" class="num pwin" autocomplete="off" aria-label="Password"><p class="pwerr" hidden>Wrong password.</p><div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-x>Cancel</button><button class="btn primary" data-ok>Unlock</button></div></div>`;
+  document.body.appendChild(m); const inp=$('.pwin',m); inp.focus();
+  const ok=()=>{ if(pwOk(inp.value)){ m.remove(); onOk(); } else { inp.value=''; $('.pwerr',m).hidden=false; const b=$('.pwbox',m); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); if(S){ S.pwFails=(S.pwFails||0)+1; save(); } inp.focus(); } };
+  $('[data-ok]',m).addEventListener('click',ok); inp.addEventListener('keydown',e=>{ if(e.key==='Enter') ok(); });
+  $('[data-x]',m).addEventListener('click',()=>{ m.remove(); if(onCancel) onCancel(); });
+}
+
+/* ---------- Lock screen ---------- */
+function showLock(reason){
+  if(lockOpen) return; lockOpen=true;
+  const L=document.createElement('div'); L.className='lockscreen'; L.innerHTML=`<div class="lockbox"><div class="lock-ic">🔒</div><h2>The exam is locked</h2><p><b>${esc(reason)}.</b> This has been recorded (${S.warnings.length} warning${S.warnings.length===1?'':'s'}).</p><p>Your answers are safe. Return to the exam now.</p><div class="row" style="justify-content:center;margin-top:14px"><button class="btn primary big" data-back>↩ Return to the exam (full screen)</button></div><button class="linkbtn" data-teach>Teacher: unlock to exit</button></div>`;
+  document.body.appendChild(L);
+  $('[data-back]',L).addEventListener('click',()=>{ L.remove(); lockOpen=false; enterFS(); });
+  $('[data-teach]',L).addEventListener('click',()=>askPassword('Exit the exam',()=>{ L.remove(); lockOpen=false; teacherPanel(); }));
+}
+
+/* ---------- Screens ---------- */
+function viewStart(){
+  $a().innerHTML=`<div class="exwrap"><div class="excard start"><p class="hero-sub">${EXAM.code} · ${EXAM.subject}</p><h1>${EXAM.title}</h1>
+   <ul class="rules">${[`All ${EXAM.count} questions from the question bank, in a random order. Answers are shuffled.`,'Choose one answer for each question. You can change answers before you submit.','No hints and no feedback during the exam.','The exam runs in full screen. Leaving full screen or switching windows locks the exam and is recorded.','Your result appears after you answer all questions and submit.'].map(x=>`<li class="ok">✔ ${x}</li>`).join('')}</ul>
+   <div class="formgrid"><label>Full name<input class="num" data-name autocomplete="off" maxlength="60"></label><label>Student ID / class<input class="num" data-sid autocomplete="off" maxlength="30"></label></div>
+   <label class="agree"><input type="checkbox" data-agree> I have read the rules and I am ready.</label>
+   <div class="row" style="margin-top:14px"><button class="btn primary big" data-start disabled>▶ Start the exam in full screen</button></div><p class="pwerr" data-err hidden></p></div>
+   <button class="linkbtn corner" data-t>🔒 Teacher</button></div>`;
+  const chk=()=>{ $('[data-start]').disabled=!($('[data-name]').value.trim()&&$('[data-sid]').value.trim()&&$('[data-agree]').checked); };
+  ['input','change'].forEach(ev=>$a().addEventListener(ev,chk));
+  $('[data-start]').addEventListener('click',()=>{
+    const pick=shuffle(Object.keys(Q)).slice(0,EXAM.count);
+    S={name:$('[data-name]').value.trim(), sid:$('[data-sid]').value.trim(), ids:pick, order:pick.map(id=>shuffle([0,1,2,3].slice(0,Q[id].opts.length))), ans:Array(pick.length).fill(null), i:0, start:Date.now(), started:true, submitted:false, warnings:[], reloads:0};
+    save(); enterFS(); viewExam();
+  });
+  $('[data-t]').addEventListener('click',()=>askPassword('Teacher panel',teacherPanel));
+}
+function viewResume(){
+  $a().innerHTML=`<div class="exwrap"><div class="excard start"><div class="lock-ic">⏸️</div><h1>Exam in progress</h1><p><b>${esc(S.name)}</b> (${esc(S.sid)}), ${S.ans.filter(a=>a!==null).length} of ${S.ids.length} answered.</p><p class="tipline">The page was reloaded or reopened. This has been recorded. You will get the same questions and your saved answers.</p><div class="row" style="margin-top:14px"><button class="btn primary big" data-go>↩ Continue the exam in full screen</button></div></div><button class="linkbtn corner" data-t>🔒 Teacher</button></div>`;
+  $('[data-go]').addEventListener('click',()=>{ enterFS(); viewExam(); });
+  $('[data-t]').addEventListener('click',()=>askPassword('Teacher panel',teacherPanel));
+}
+let tickT=null;
+function viewExam(){
+  const n=S.ids.length;
+  $a().innerHTML=`<div class="exbar"><div><b>${esc(S.name)}</b> <span class="tipline">${esc(S.sid)}</span></div><div class="exstat"><span>⏱️ <b data-time>0:00</b></span><span>✍️ <b data-cnt></b> / ${n} answered</span></div><button class="linkbtn" data-t>🔒 Teacher</button></div>
+   <p id="fsbanner" class="fsbanner" hidden>⚠️ Full screen is not active. <button class="btn small" data-fs>Go full screen</button></p>
+   <div class="exwrap wide"><div class="palette" data-pal></div><div data-q></div>
+   <div class="rv-nav"><button class="btn" data-prev>⟵ Previous</button><button class="btn" data-next>Next ⟶</button></div>
+   <div class="submitbar"><button class="btn primary big" data-sub>✅ Submit the exam</button><span class="tipline" data-subhint></span></div></div>`;
+  $('[data-t]').addEventListener('click',()=>askPassword('Teacher panel',teacherPanel));
+  $('[data-fs]').addEventListener('click',enterFS);
+  $('[data-prev]').addEventListener('click',()=>{ if(S.i>0){ S.i--; save(); drawQ(); } });
+  $('[data-next]').addEventListener('click',()=>{ if(S.i<n-1){ S.i++; save(); drawQ(); } });
+  $('[data-sub]').addEventListener('click',confirmSubmit);
+  clearInterval(tickT); tickT=setInterval(()=>{ const t=$('[data-time]'); if(t) t.textContent=fmtT(Date.now()-S.start); },1000);
+  if(!fsEl()) later(400,()=>{ if(!fsEl()) flagNoFS(); });
+  drawQ();
+}
+function drawQ(){
+  const n=S.ids.length, id=S.ids[S.i], q=Q[id], ord=S.order[S.i], L='ABCD';
+  const fig='';
+  $('[data-q]').innerHTML=`<article class="q exq"><div class="q-head"><span class="q-num">Question ${S.i+1} of ${n}</span></div><div class="q-stem">${stemText(q)}</div>${q.extra||''}${fig}
+   <div class="opts" role="radiogroup" aria-label="Answer options">${ord.map((oi,k)=>`<button class="opt ${S.ans[S.i]===oi?'chosen':''}" role="radio" aria-checked="${S.ans[S.i]===oi}" data-oi="${oi}"><span class="opt-l">${L[k]}</span><span class="opt-t">${q.opts[oi][0]}</span></button>`).join('')}</div></article>`;
+  $$('.opt').forEach(b=>b.addEventListener('click',()=>{ S.ans[S.i]=+b.dataset.oi; save(); drawQ(); }));
+  const done=S.ans.filter(a=>a!==null).length;
+  $('[data-cnt]').textContent=done;
+  $('[data-pal]').innerHTML=S.ids.map((_,k)=>`<button class="qdot ${S.ans[k]!==null?'ok':''} ${k===S.i?'now':''}" data-k="${k}" aria-label="Question ${k+1}${S.ans[k]!==null?', answered':''}">${k+1}</button>`).join('');
+  $$('[data-k]').forEach(d=>d.addEventListener('click',()=>{ S.i=+d.dataset.k; save(); drawQ(); }));
+  $('[data-prev]').disabled=S.i===0; $('[data-next]').disabled=S.i===n-1;
+  $('[data-sub]').disabled=done<n; $('[data-subhint]').textContent=done<n?`Answer all ${n} questions to submit (${n-done} left).`:'All questions answered. You can submit.';
+}
+function confirmSubmit(){
+  const m=document.createElement('div'); m.className='pwmodal'; m.innerHTML=`<div class="pwbox" role="dialog" aria-modal="true"><h2>Submit the exam?</h2><p>You cannot change your answers after submitting.</p><div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-x>Go back</button><button class="btn primary" data-ok>Yes, submit</button></div></div>`;
+  document.body.appendChild(m);
+  $('[data-x]',m).addEventListener('click',()=>m.remove());
+  $('[data-ok]',m).addEventListener('click',()=>{ m.remove(); const score=S.ans.filter(a=>a===0).length; S.submitted=true; S.end=Date.now(); S.score=score; save(); clearInterval(tickT); viewResult(); });
+}
+function viewResult(){
+  const n=S.ids.length, pct=Math.round(S.score/n*100), pass=pct>=EXAM.pass;
+  $a().innerHTML=`<div class="exwrap"><div class="excard result"><p class="hero-sub">${EXAM.title}</p><h1>Your result</h1>
+   <div class="ring ${pass?'pass':'fail'}" style="--p:${pct}"><div><b>${S.score} / ${n}</b><span>${pct}%</span></div></div>
+   <p class="resmsg">${pct>=90?'🌟 Outstanding!':pct>=75?'🎉 Very good work!':pass?'👍 Well done, you passed.':'Keep practising. You can do better next time.'}</p>
+   <table class="dtable restbl"><tr><td>Student</td><td><b>${esc(S.name)}</b></td></tr><tr><td>ID / class</td><td>${esc(S.sid)}</td></tr><tr><td>Date</td><td>${new Date(S.end).toLocaleString('en-GB')}</td></tr><tr><td>Time taken</td><td>${fmtT(S.end-S.start)}</td></tr><tr><td>Warnings (left full screen / switched)</td><td>${S.warnings.length}${S.reloads?` · reloads: ${S.reloads}`:''}</td></tr></table>
+   ${n-S.score?`<div class="row" style="justify-content:center;margin:6px 0 10px"><button class="btn primary big" data-rev>📖 Review my incorrect answers (${n-S.score})</button></div>`:'<p class="resmsg" style="font-size:1rem">✅ You have no incorrect answers.</p>'}
+   <p class="tipline">Please stay in your seat. Your teacher will close the exam.</p></div><button class="linkbtn corner" data-t>🔒 Teacher</button></div>`;
+  $('[data-t]').addEventListener('click',()=>askPassword('Teacher panel',teacherPanel));
+  const rv=$('[data-rev]'); if(rv) rv.addEventListener('click',()=>viewReview('wrong'));
+}
+function viewReview(mode){
+  const n=S.ids.length, L='ABCD', wrongN=n-S.score;
+  const list=S.ids.map((id,k)=>({id,k})).filter(x=>mode==='all'||S.ans[x.k]!==0);
+  $a().innerHTML=`<div class="exbar"><div><b>📖 Review</b> <span class="tipline">${esc(S.name)} · ${S.score} / ${n}</span></div><button class="btn small" data-back>⟵ Back to my result</button></div>
+   <div class="exwrap wide"><div class="row" style="justify-content:space-between;margin:6px 0 14px"><div class="seg" data-g="m"><button data-m="wrong" class="${mode==='wrong'?'on':''}">❌ Incorrect only (${wrongN})</button><button data-m="all" class="${mode==='all'?'on':''}">📋 All ${n} questions</button></div>
+   <div class="legend-r"><span class="lg your">✘ Your answer</span><span class="lg right">✔ Correct answer</span></div></div>
+   ${list.length?list.map(({id,k})=>{ const q=Q[id], a=S.ans[k], ord=S.order[k], ok=a===0;
+     const fig='';
+     return `<article class="q exq rvq ${ok?'isok':'iswrong'}"><div class="q-head"><span class="q-num">Question ${k+1}</span><span class="rvtag ${ok?'ok':'no'}">${ok?'✔ Correct':'✘ Incorrect'}</span></div><div class="q-stem">${stemText(q)}</div>${q.extra||''}${fig}
+      <div class="opts">${ord.map((oi,j)=>{ const cls=oi===0?'right':(oi===a?'yours':'dim'); return `<div class="opt rvopt ${cls}"><span class="opt-l">${L[j]}</span><span class="opt-t">${q.opts[oi][0]}${oi===0?'<span class="rvmark ok">✔ Correct answer</span>':oi===a?'<span class="rvmark no">✘ Your answer</span>':''}</span></div>`; }).join('')}</div>
+      ${a===null?'<p class="rvwhy no">You did not answer this question.</p>':''}
+      ${!ok&&a!==null&&q.opts[a][2]?`<p class="rvwhy no"><b>Why your answer is wrong:</b> ${q.opts[a][2]}</p>`:''}
+      <p class="rvwhy ok"><b>Why the correct answer is right:</b> ${explainHTML(q)}</p></article>`; }).join(''):'<div class="excard result"><p class="resmsg">✅ No incorrect answers.</p></div>'}
+   <div class="row" style="justify-content:center;margin-top:10px"><button class="btn" data-back2>⟵ Back to my result</button></div></div>`;
+  $('[data-back]').addEventListener('click',viewResult); $('[data-back2]').addEventListener('click',viewResult);
+  segBind($a(),'[data-g="m"]',b=>{ viewReview(b.dataset.m); window.scrollTo(0,0); });
+  window.scrollTo(0,0);
+}
+function teacherPanel(){
+  const m=document.createElement('div'); m.className='pwmodal'; const has=!!S;
+  const rows=has&&S.submitted?S.ids.map((id,k)=>{ const q=Q[id], a=S.ans[k], ok=a===0, L='ABCD', ord=S.order[k]; const letter=oi=>L[ord.indexOf(oi)];
+    return `<tr class="${ok?'':'badrow'}"><td>${k+1}</td><td>${q.src}</td><td>${a===null?'—':letter(a)+'. '+plain(q.opts[a][0]).slice(0,60)}</td><td>${letter(0)}. ${plain(q.opts[0][0]).slice(0,60)}</td><td>${ok?'✔':'✘'}</td></tr>`; }).join(''):'';
+  m.innerHTML=`<div class="pwbox wide" role="dialog" aria-modal="true"><h2>🧑‍🏫 Teacher panel</h2>
+   ${has?`<p><b>${esc(S.name)}</b> (${esc(S.sid)}) · ${S.submitted?`<b>${S.score} / ${S.ids.length}</b> (${Math.round(S.score/S.ids.length*100)}%)`:`in progress: ${S.ans.filter(a=>a!==null).length} / ${S.ids.length} answered`} · warnings: ${S.warnings.length} · wrong passwords: ${S.pwFails||0}</p>`:'<p>No exam in progress on this computer.</p>'}
+   ${has&&S.warnings.length?`<details><summary>Warning log (${S.warnings.length})</summary><ul class="wlog">${S.warnings.map(w=>`<li>${new Date(w.t).toLocaleTimeString('en-GB')}: ${esc(w.kind)}</li>`).join('')}</ul></details>`:''}
+   ${rows?`<details><summary>Answers, question by question</summary><div class="dt-wrap"><table class="dtable"><tr><th>#</th><th>Sheet</th><th>Student answer</th><th>Correct answer</th><th></th></tr>${rows}</table></div></details>`:''}
+   <div class="tbtns">${has&&!S.submitted?'<button class="btn" data-c>↩ Continue the exam</button>':''}<button class="btn" data-exit>🚪 Unlock and leave full screen</button><button class="btn danger" data-new>🧹 Clear and start a new student</button><button class="btn" data-close>Close</button></div>
+   <p class="tipline">“Clear” deletes this student’s exam from this computer. Write down the result first.</p></div>`;
+  document.body.appendChild(m);
+  const c=$('[data-c]',m); if(c) c.addEventListener('click',()=>{ m.remove(); enterFS(); });
+  $('[data-close]',m).addEventListener('click',()=>{ m.remove(); if(active()&&!fsEl()) showLock('Teacher panel closed'); });
+  $('[data-exit]',m).addEventListener('click',()=>{ unlocked=true; m.remove(); exitFS(); const b=document.createElement('div'); b.className='unlockbar'; b.innerHTML='🔓 Unlocked by the teacher. The browser can now be closed.'; document.body.appendChild(b); });
+  $('[data-new]',m).addEventListener('click',()=>{ const was=unlocked; unlocked=true; const okc=confirm('Delete this exam from this computer and start a new student?'); if(!okc){ unlocked=was; return; } m.remove(); clearState(); unlocked=false; clearInterval(tickT); viewStart(); });
+}
+
+/* ---------- Boot ---------- */
+(function boot(){
+  S=load();
+  if(!S||!S.started) viewStart();
+  else if(S.submitted) viewResult();
+  else { S.reloads=(S.reloads||0)+1; S.warnings.push({kind:'Page reloaded or reopened', t:Date.now()}); save(); viewResume(); }
+})();
+
+</script>
+</body>
+</html>
